@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Museu Virtual dos Tubarões — Uma Jornada pelo Oceano</title>
+<style>
+:root{--bg:rgba(6,28,44,.62);--fg:#e8f6fb;--ac:#6fd6f0;--ln:rgba(255,255,255,.18);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html,body{height:100%;margin:0;background:#06202f;color:var(--fg);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;overflow:hidden}
+canvas{display:block;position:fixed;inset:0;width:100%;height:100%;touch-action:none;cursor:grab}
+.p{position:fixed;background:var(--bg);backdrop-filter:blur(8px);border:1px solid var(--ln);border-radius:14px;padding:10px 14px}
+#top{left:14px;top:calc(14px + env(safe-area-inset-top,0px));font-size:13px;max-width:60vw}
+#top b{display:block;font-size:16px;letter-spacing:.02em}
+#info{left:50%;transform:translateX(-50%);bottom:84px;max-width:min(560px,92vw);font-size:14px;line-height:1.45;transition:opacity 1s;text-align:center}
+#menu{left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom,0px));display:flex;gap:6px;padding:6px;max-width:96vw;overflow-x:auto}
+button{font:inherit;color:var(--fg);background:transparent;border:1px solid var(--ln);border-radius:10px;padding:8px 11px;cursor:pointer;font-size:13px;white-space:nowrap}
+button:hover,button.on{background:rgba(111,214,240,.25);border-color:var(--ac)}
+#snd{right:14px;top:calc(14px + env(safe-area-inset-top,0px));display:flex;gap:8px;align-items:center;font-size:13px}
+#snd input{width:84px;accent-color:#6fd6f0}#snd{align-items:flex-start}#mix{display:flex;flex-direction:column;gap:2px;font-size:11px}#mix label{display:flex;justify-content:space-between;align-items:center;gap:8px}
+#help{right:14px;top:calc(124px + env(safe-area-inset-top,0px));font-size:12px;max-width:210px;line-height:1.5}
+#intro{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 30%,rgba(20,110,150,.72),rgba(3,18,30,.95));z-index:9;transition:opacity 1.2s;padding:20px}
+#intro div{max-width:560px;text-align:center}
+#intro h1{font-size:clamp(22px,4.5vw,36px);margin:0 0 6px;letter-spacing:.03em;font-weight:600}
+#intro h2{font-size:14px;margin:0 0 18px;color:var(--ac);font-weight:500;letter-spacing:.12em}
+#intro p{line-height:1.6;font-size:15px;opacity:.92}
+#intro button{margin-top:14px;font-size:16px;padding:12px 28px;background:rgba(111,214,240,.22);border-color:var(--ac)}
+#fwd{display:none;right:18px;bottom:90px;width:62px;height:62px;border-radius:50%;font-size:22px;padding:0}
+@media(pointer:coarse){#fwd{display:block;position:fixed}#help{display:none}}
+#models{left:14px;top:calc(84px + env(safe-area-inset-top,0px));font-size:11px;opacity:.85}
+#lab{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+.lb{position:absolute;transform:translate(-50%,-100%);pointer-events:auto;background:var(--bg);backdrop-filter:blur(6px);font-size:12px;padding:5px 9px}
+#learn{left:14px;top:calc(118px + env(safe-area-inset-top,0px));font-size:13px}
+#edu{display:none;flex-direction:column;left:50%;top:50%;transform:translate(-50%,-50%);width:min(660px,92vw);max-height:78vh;padding:0;overflow:hidden;z-index:20;background:rgba(5,24,38,.9);box-shadow:0 12px 44px rgba(0,0,0,.5)}
+#dim{position:fixed;inset:0;background:rgba(2,14,24,.55);backdrop-filter:blur(2px);display:none;z-index:15}
+.reading #top,.reading #prog,.reading #help,.reading #models,.reading #menu,.reading #info,.reading #lab,.reading #poi,.reading #guide,.reading #fwd{opacity:0;pointer-events:none;transition:opacity .25s}
+#eh b{font-size:16px}#eh button#ex{font-size:22px;padding:0 12px;line-height:1.3}
+#eh{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 12px;border-bottom:1px solid var(--ln)}#eh b{font-size:14px}#eh span{display:flex;gap:4px;flex:none}#eh button{padding:3px 8px;font-size:12px}
+#etabs{display:flex;gap:4px;overflow-x:auto;padding:8px 12px 4px;flex:none}#etabs button{font-size:12px;padding:5px 9px}
+#ebar{height:3px;margin:4px 12px;background:var(--ln);border-radius:2px;flex:none}#ebi{display:block;height:100%;background:var(--ac);border-radius:2px;width:0;transition:width .4s}
+#eb{overflow:auto;padding:4px 14px 10px;font-size:13.5px;line-height:1.5;flex:1}#eb h4{margin:6px 0 0;font-size:16px}#eb small{color:var(--ac)}#eb ul{padding-left:18px}#eb li{margin:5px 0}#eb a{color:var(--ac)}
+#enav{display:flex;justify-content:space-between;align-items:center;padding:6px 12px;border-top:1px solid var(--ln);font-size:12px;flex:none}
+#edu.min #etabs,#edu.min #ebar,#edu.min #eb,#edu.min #enav{display:none}
+.qz{margin:10px 0}.qz button{display:block;width:100%;text-align:left;margin:4px 0;white-space:normal}.qz button.ok{border-color:#6fe39a;background:rgba(111,227,154,.22)}.qz button.no{border-color:#ff8a8a;background:rgba(255,138,138,.18)}.fb{font-size:12.5px}.sum{font-weight:600;color:var(--ac)}
+#poi{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+.poi{position:absolute;pointer-events:auto;display:none;align-items:center;justify-content:center;gap:6px;height:30px;min-width:30px;border-radius:15px;padding:0 8px;background:rgba(111,214,240,.3);border-color:var(--ac);animation:pl 2.2s infinite;font-size:12px}.poi b{font-size:14px}.poi .pl2{display:none;white-space:nowrap}.poi.near .pl2{display:inline}.poi.vis{background:rgba(111,227,154,.35);border-color:#6fe39a;animation:none}.poi.vis b:after{content:" ✓"}
+#prog{left:14px;top:calc(112px + env(safe-area-inset-top,0px));font-size:12px;display:flex;gap:6px;align-items:center;flex-wrap:wrap;max-width:min(440px,calc(100vw - 270px))}#prog button{padding:4px 8px;font-size:12px}
+#guide{position:fixed;display:none;pointer-events:none;z-index:5;transform:translate(-50%,-50%);background:var(--bg);border:1px solid var(--ac);border-radius:10px;padding:4px 9px;font-size:12px}
+@keyframes pl{0%,100%{box-shadow:0 0 0 0 rgba(111,214,240,.5)}50%{box-shadow:0 0 0 9px rgba(111,214,240,0)}}
+#sbt{display:flex;flex-direction:column;gap:4px}#mbtn.off{opacity:.45}#mstat{font-size:10px;opacity:.8;max-width:170px;line-height:1.3}
+#gfx{left:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));font-size:12px;padding:5px 7px}#gfx button#gbtn{border:0;padding:3px 6px}
+#gmenu{display:none;position:absolute;left:0;bottom:calc(100% + 6px);width:236px;padding:10px;border-radius:12px;background:var(--bg);border:1px solid var(--ln);backdrop-filter:blur(8px);flex-direction:column;gap:6px;font-size:12px}
+#gmenu.open{display:flex}#gmenu .row{display:flex;gap:4px}#gmenu .row button{flex:1;padding:6px 4px}#gmenu button.on{background:rgba(111,214,240,.3);border-color:var(--ac)}#gmenu label{display:flex;gap:6px;align-items:center}#gnote{opacity:.85;font-size:11px;line-height:1.35}
+#fps{position:fixed;left:14px;bottom:62px;font:11px/1.35 ui-monospace,Consolas,monospace;background:var(--bg);border:1px solid var(--ln);padding:4px 8px;border-radius:8px;display:none;z-index:6}
+/* colunas da interface: os quadros ficam em fluxo (um abaixo do outro, com espaçamento constante), sem sobreposição em qualquer resolução */
+#lcol,#rcol{position:fixed;top:calc(14px + env(safe-area-inset-top,0px));display:flex;flex-direction:column;gap:10px;max-height:calc(100% - 28px);pointer-events:none}
+#lcol{left:14px;align-items:flex-start}#rcol{right:14px;align-items:flex-end}
+#lcol>.p,#rcol>.p{position:static;pointer-events:auto}.reading #lcol>.p,.reading #rcol>.p{pointer-events:none}
+#disc{font-size:12px;display:flex;flex-direction:column;gap:5px;min-width:215px;max-width:min(440px,calc(100vw - 270px))}
+#dsub{opacity:.9}#dbar{height:4px;background:var(--ln);border-radius:2px;overflow:hidden}#dbi{display:block;height:100%;width:0;background:var(--ac);transition:width .4s}
+#dfoot{display:flex;justify-content:flex-end;font-size:10px;min-height:14px}#disc #dfoot button{border:0;background:none;padding:0 3px;font-size:10px;text-decoration:underline;opacity:.7}#disc #dfoot button:hover{opacity:1;background:none}
+#dask{display:flex;gap:6px;align-items:center}#disc #dask button{border:1px solid var(--ln);border-radius:6px;padding:1px 7px;text-decoration:none;opacity:1}
+#conq{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:min(480px,92vw);box-sizing:border-box;padding:14px 18px;text-align:center;font-size:14px;line-height:1.45;display:flex;flex-direction:column;gap:6px;opacity:0;pointer-events:none;transition:opacity .6s;z-index:12;border-color:var(--ac)}
+#conq.show{opacity:1}#conq b{font-size:17px;color:var(--ac)}
+</style></head><body>
+<canvas id="c"></canvas>
+<div id="intro"><div>
+<h1>MUSEU VIRTUAL DOS TUBARÕES</h1><h2>UMA JORNADA PELO OCEANO</h2>
+<p>Aqui não há salas nem vitrines: o oceano é o museu. Mergulhe por cinco regiões — da descoberta dos tubarões até a conservação dos mares — e aprenda por que proteger a vida na água é essencial. Projeto alinhado à ODS 14.</p>
+<button id="go">Mergulhar</button></div></div>
+
+
+
+<div id="lcol"><div class="p" id="top"><b id="rn">—</b><span id="rd"></span></div><div class="p" id="models">Carregando modelos…</div><div class="p" id="prog"><span id="pt"></span><button id="pnext">📍 Próximo ponto</button><button id="pref">Referências</button></div><div class="p" id="disc"><span>🦈 Tubarões descobertos: <b id="dn">0/8</b></span><div id="dsub">Faltam 8 espécies para descobrir!</div><div id="dbar"><i id="dbi"></i></div><div id="dfoot"><button id="dreset" title="Reiniciar somente o progresso de descoberta dos tubarões">reiniciar progresso</button><span id="dask" style="display:none">Apagar o progresso? <button id="dyes">Sim</button><button id="dno">Não</button></span></div></div></div><div id="rcol"><div class="p" id="snd"><div id="sbt"><button id="mute" title="Silenciar tudo">🔊</button><button id="mbtn" title="Música ligada/desligada">🎵</button></div><div id="mix"><label>Geral<input id="gvol" type="range" min="0" max="1" step=".05" value="1"></label><label>Ambiente<input id="vol" type="range" min="0" max="1" step=".05" value=".5"></label><label>Música<input id="mvol" type="range" min="0" max="1" step=".05" value=".5"></label><small id="mstat">Música: inicia ao entrar</small></div></div><div class="p" id="help"><b>Controles</b><br>Arraste: olhar ao redor<br>W A S D / setas: nadar<br>Espaço / C: subir / descer<br>Q / E: girar a câmera<br>Shift: nadar mais rápido<br>F: abrir ponto próximo<br>Esc: fechar painéis</div></div>
+<div class="p" id="gfx"><div id="gmenu"><b>Qualidade gráfica</b><div class="row"><button data-q="alta">Alta</button><button data-q="media">Média</button><button data-q="baixa">Baixa</button></div><label><input type="checkbox" id="gfps"> Mostrar FPS</label><small id="gnote"></small></div><button id="gbtn">⚙ Gráficos: <b id="gq">–</b></button></div><div id="fps"></div><div id="lab"></div><div id="poi"></div><div id="guide"></div><div class="p" id="conq" role="status"><b>🦈 Explorador dos Oceanos!</b><span>Parabéns! Você conheceu as oito espécies de tubarões do nosso museu! Cada uma possui características únicas e desempenha um papel importante na biodiversidade marinha. Conhecer é o primeiro passo para preservar!</span></div><div id="dim"></div><div class="p" id="edu"><div id="eh"><b id="et"></b><span><button id="ex" title="Fechar">×</button></span></div><div id="eb"></div></div>
+<div class="p" id="info"></div>
+<div class="p" id="menu"></div>
+<button class="p" id="fwd">▲</button>
+
+<script src="lib/three.min.js"></script>
+<script src="lib/GLTFLoader.js"></script>
+<script src="lib/BufferGeometryUtils.js"></script>
+<script src="edu.js"></script>
+<script src="perf.js"></script>
+<script src="lib/SkeletonUtils.js"></script>
+<script src="fauna.js"></script>
+<script src="pollution.js"></script>
+<script>
+"use strict";
+/* ============ DADOS (regiões e conteúdo) ============ */
+const REG=[
+{n:"1 · Descoberta",t:"Descoberta do mundo dos tubarões",d:"Os tubarões vivem nos oceanos há mais de 400 milhões de anos. Existem mais de 500 espécies, de poucos centímetros a mais de 12 metros.",fog:0x2a9fc0,den:.012,sun:1.1,ray:.55,caus:1},
+{n:"2 · Diversidade",t:"Diversidade dos tubarões",d:"Oito espécies, oito modos de viver: águas abertas, fundo arenoso e zonas profundas. Siga para o lado e desça para explorar o abismo. Toque em ⓘ ou clique em um tubarão para ver a ficha.",fog:0x155a8c,den:.016,sun:.8,ray:.4,caus:.3},
+{n:"3 · Ecossistema",t:"Ecossistema marinho",d:"Tubarões são predadores de topo: ajudam a manter equilibradas as populações de peixes e, indiretamente, a saúde dos recifes e das pradarias marinhas.",fog:0x1f8fb8,den:.011,sun:1.1,ray:.5,caus:.8},
+{n:"4 · Ameaças",t:"Ameaças aos tubarões",d:"Pesca excessiva, captura acidental, comércio de barbatanas, poluição, destruição de habitats e mudanças climáticas pressionam as populações de tubarões.",fog:0x1b4252,den:.02,sun:.45,ray:.15,caus:0},
+{n:"5 · Conservação",t:"Conservação e futuro dos oceanos",d:"Áreas marinhas protegidas, pesca sustentável e recifes preservados mantêm o oceano vivo. ODS 14 — Vida na Água: conservar e usar de forma sustentável os oceanos, mares e recursos marinhos.",fog:0x30b2cf,den:.009,sun:1.25,ray:.7,caus:1.2}];
+const FINAL="Cada mergulho termina, mas a conservação do oceano continua. Proteger os tubarões é proteger o equilíbrio de toda a vida marinha — e a nossa também.";
+const PAL=[[0xd9b34a,0xc9a05a,0xe8a33d,0xb98d4f,0xd5c18a],[0x6f7f8c,0x8a7a6a,0x5c6f78,0x9a8f7a],
+[0xe0457b,0xff6a3d,0xf2c230,0x3f7fc0,0xe8d9a0,0xd94a3a,0xb34fa0],[0xb8b8a8,0x9a9a90,0xd0d0c4,0x777770,0x8a8a60],
+[0xff5f7a,0xff8a30,0xffd23c,0x4a8fd0,0xf0e0b0,0x40b89a,0xe05aa0]];
+/* ===== Configuração dos animais (cada espécie é independente; troque arquivo/escala/posição aqui) =====
+ url: arquivo GLB · size: comprimento em metros · axis: eixo do comprimento no arquivo · yaw: giro para que o nariz aponte para +Z
+ p: centro da trajetória [x,y,z] · r: raios da elipse [x,z] · sp: velocidade (m/s) · dy: ondulação vertical · floor: altura mínima sobre o fundo
+ clip/anim: animação preferida e velocidade de reprodução (se o modelo tiver animação) */
+const SHARKS=[
+{id:"great_white",n:"Tubarão-branco",url:"models/sharks/great_white.glb",size:4.6,yaw:0,p:[150,-26,-35],r:[28,14],sp:1.6,clip:"swimming",info:{sci:"Carcharodon carcharias",tam:"Geralmente 4–5 m; pode passar de 6 m",ali:"Focas, leões-marinhos, golfinhos, peixes grandes e carcaças de baleias",hab:"Águas costeiras e oceânicas temperadas e subtropicais, da superfície a cerca de 1.000 m",ana:"Corpo robusto em forma de torpedo, focinho cônico, dentes triangulares serrilhados substituídos continuamente e cauda em meia-lua com lobos quase iguais",cur:"É endotérmico regional: mantém partes do corpo mais quentes que a água, o que ajuda na caça.",cons:"Vulnerável (UICN)"}},
+{id:"hammerhead",n:"Tubarão-martelo",url:"models/sharks/hammerhead.glb",size:4.2,yaw:0,p:[210,-18,-14],r:[22,14],sp:1.4,info:{sci:"Sphyrna mokarran (tubarão-martelo-gigante)",tam:"3,5–4,5 m; pode chegar a cerca de 6 m",ali:"Raias, peixes ósseos, cefalópodes e outros tubarões",hab:"Águas tropicais e subtropicais, costeiras e oceânicas, perto de recifes e plataformas",ana:"Cabeça em forma de martelo (cefalofólio) com olhos nas pontas e primeira nadadeira dorsal muito alta e curva",cur:"A cabeça larga reúne muitos eletrorreceptores que ajudam a detectar presas escondidas na areia.",cons:"Criticamente em perigo (UICN)"}},
+{id:"whale_shark",n:"Tubarão-baleia",url:"models/sharks/whale_shark.glb",size:9,yaw:0,p:[180,-13,6],r:[36,18],sp:.9,info:{sci:"Rhincodon typus",tam:"Geralmente 9–12 m; é o maior peixe do mundo",ali:"Plâncton, krill, ovos de peixes e pequenos peixes, obtidos por filtração",hab:"Águas tropicais e quentes, geralmente perto da superfície, em mar aberto e áreas costeiras",ana:"Boca larga na frente da cabeça, pintas brancas únicas em cada indivíduo, cinco pares de grandes fendas branquiais e dentes minúsculos",cur:"Apesar do tamanho, é inofensivo para humanos. As pintas funcionam como uma “impressão digital” em estudos científicos.",cons:"Em perigo (UICN)"}},
+{id:"tiger",n:"Tubarão-tigre",url:"models/sharks/tiger.glb",size:3.8,yaw:Math.PI,p:[150,-30,26],r:[22,14],sp:1.2,info:{sci:"Galeocerdo cuvier",tam:"Geralmente 3–4,5 m",ali:"Tartarugas marinhas, peixes, aves, raias, golfinhos e carcaças",hab:"Águas tropicais e temperadas, costeiras e oceânicas, de rasas a centenas de metros",ana:"Focinho largo e rombudo, dentes serrilhados em gancho e listras verticais mais visíveis nos jovens",cur:"Como predador generalista, ajuda a controlar populações de presas e a manter ecossistemas saudáveis.",cons:"Quase ameaçado (UICN)"}},
+{id:"angel",n:"Tubarão-anjo",url:"models/sharks/angel.glb",size:1.5,yaw:0,p:[140,-40,-62],r:[9,6],sp:.2,floor:.5,dy:0,und:{amp:.035,beat:.4},info:{sci:"Squatina dumeril (tubarão-anjo-do-atlântico)",tam:"Cerca de 1,2–1,5 m",ali:"Peixes de fundo, crustáceos e moluscos, capturados de emboscada",hab:"Fundos arenosos e lamosos da plataforma continental, no Atlântico ocidental",ana:"Corpo achatado como o de uma raia, peitorais largas, olhos no topo da cabeça e boca na ponta do focinho",cur:"Fica meio enterrado na areia e ataca de surpresa quando um peixe passa por perto.",cons:"Não verificado — consulte a Lista Vermelha da UICN"}},
+{id:"goblin",n:"Tubarão-duende",url:"models/sharks/goblin.glb",size:3.4,yaw:-Math.PI/2,axis:"x",p:[190,-60,72],r:[10,8],sp:.5,floor:6,und:{amp:.045,beat:.5},info:{sci:"Mitsukurina owstoni",tam:"Geralmente 3–4 m",ali:"Peixes de águas profundas, lulas e crustáceos",hab:"Mares profundos, em geral entre 200 e mais de 1.000 m, em vários oceanos",ana:"Focinho alongado em forma de lâmina, mandíbulas protráteis e corpo rosado e flácido",cur:"Projeta as mandíbulas rapidamente para capturar a presa — um mecanismo raro entre os tubarões.",cons:"Pouco preocupante (UICN)"}},
+{id:"basking",n:"Tubarão-peregrino",url:"models/sharks/basking.glb",size:7,yaw:0,p:[215,-12,-52],r:[30,12],sp:1,dy:3,bone:{names:["004","005","006","007"],amp:[.025,.04,.055,.07],beat:.35,lag:.7},info:{sci:"Cetorhinus maximus",tam:"Geralmente 6–8 m; pode passar de 10 m",ali:"Zooplâncton, filtrado enquanto nada de boca aberta",hab:"Águas temperadas e frias, costeiras e oceânicas, muitas vezes perto da superfície",ana:"Boca enorme, fendas branquiais que quase circundam a cabeça e rastros branquiais longos para filtrar plâncton",cur:"É o segundo maior peixe do mundo e filtra milhares de metros cúbicos de água por hora.",cons:"Em perigo (UICN)"}},
+{id:"megamouth",n:"Tubarão-boca-grande",url:"models/sharks/megamouth.glb",size:4.8,yaw:0,p:[165,-58,62],r:[12,9],sp:.5,floor:6,und:{amp:.045,beat:.45},info:{sci:"Megachasma pelagios",tam:"Cerca de 4–5,5 m",ali:"Plâncton e pequenos crustáceos, como krill, filtrados",hab:"Oceano aberto, do raso a mais de 1.000 m, com migração vertical",ana:"Cabeça grande e arredondada, boca muito larga com dentes minúsculos e corpo mole",cur:"Descoberto apenas em 1976, é um dos tubarões mais raros e menos observados.",cons:"Pouco preocupante (UICN)"}}];
+/* corais: size = largura em metros · n = quantidade por região [1..5] (multiplicada pelo fator de qualidade ?q=) */
+const CORALS=[
+{id:"aurora",url:"models/corals/coral_aurora.glb",size:2.3,n:[12,2,16,3,18]},
+{id:"lazulight",url:"models/corals/coral_lazulight.glb",size:1.9,n:[10,2,14,3,16]},
+{id:"rainbow",url:"models/corals/coral_rainbow.glb",size:2.1,n:[10,0,16,0,18]},
+{id:"greatstar",url:"models/corals/coral_greatstar.glb",size:3.2,n:[5,1,8,2,10]},
+{id:"chromaflare",url:"models/corals/coral_chromaflare.glb",size:2.2,n:[2,0,4,0,6]},
+{id:"pillar",url:"models/corals/coral_pillar.glb",size:5,n:[2,0,2,0,4]},
+{id:"longledges",url:"models/corals/reef_longledges.glb",size:9,n:[2,0,3,1,4]}];
+
+/* ============ RUÍDO E TERRENO ============ */
+const ss=(a,b,x)=>{x=Math.min(1,Math.max(0,(x-a)/(b-a)));return x*x*(3-2*x)};
+const hs=(x,y)=>{const h=Math.sin(x*127.1+y*311.7)*43758.5453;return h-Math.floor(h)};
+const vn=(x,y)=>{const ix=Math.floor(x),iy=Math.floor(y),fx=x-ix,fy=y-iy,u=fx*fx*(3-2*fx),v=fy*fy*(3-2*fy);return hs(ix,iy)*(1-u)*(1-v)+hs(ix+1,iy)*u*(1-v)+hs(ix,iy+1)*(1-u)*v+hs(ix+1,iy+1)*u*v};
+const fbm=(x,y,o=4)=>{let a=.5,s=0;for(let i=0;i<o;i++){s+=a*vn(x,y);x*=2.03;y*=2.03;a*=.5}return s/.94};
+const BX=[-90,0,180,360,540,720,810],BH=[-22,-22,-40,-26,-30,-18,-18];
+function base(x){for(let i=0;i<6;i++)if(x<=BX[i+1]){const t=ss(0,1,(x-BX[i])/(BX[i+1]-BX[i]));return BH[i]+(BH[i+1]-BH[i])*t}return BH[6]}
+function H(x,z){
+ let h=base(x)+(fbm(x*.018,z*.018)-.5)*14+(fbm(x*.07,z*.07,3)-.5)*3;
+ h-=ss(5,60,z)*Math.exp(-(((x-180)/80)**2))*32;              // zona profunda (região 2)
+ for(let k=0;k<4;k++){const bx=90+180*k;h+=Math.exp(-(((x-bx)/14)**2))*(16+fbm(z*.05,k)*8)*ss(10,28,Math.abs(z-(k%2?-12:14)))} // cristas com passagens
+ h+=ss(70,110,Math.abs(z))*16+ss(-70,-95,x)*14+ss(790,815,x)*14;
+ h+=Math.sin(x*.5+fbm(x*.05,z*.05)*8)*.12;
+ return Math.min(h,-3)}
+let seed=7;const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;
+const gauss=()=>(rnd()+rnd()+rnd()-1.5)*1.6;
+
+/* ============ CENA ============ */
+const cv=document.getElementById("c"),R=new THREE.WebGLRenderer({canvas:cv,antialias:PERF.P.aa,powerPreference:"high-performance"});
+R.setPixelRatio(Math.min(devicePixelRatio,PERF.P.pr));R.shadowMap.enabled=true;R.shadowMap.type=PERF.P.soft?THREE.PCFSoftShadowMap:THREE.PCFShadowMap;
+const scene=new THREE.Scene(),cam=new THREE.PerspectiveCamera(65,1,.1,420);cam.rotation.order="YXZ";
+scene.fog=new THREE.FogExp2(0x2a9fc0,.012);scene.background=new THREE.Color(0x2a9fc0);
+const T={value:0};
+const hemi=new THREE.HemisphereLight(0x9fe0ff,0x0a2b3a,.9),sun=new THREE.DirectionalLight(0xcdf3ff,1.1);
+sun.castShadow=PERF.P.shadow;sun.shadow.mapSize.set(PERF.P.smap,PERF.P.smap);Object.assign(sun.shadow.camera,{left:-70,right:70,top:70,bottom:-70,near:1,far:200});sun.shadow.bias=-.0006;sun.shadow.normalBias=.05;
+scene.add(hemi,sun,sun.target);
+/* Materiais “especular-glossiness” do glTF com textura especular (ex.: choco) precisam da função onBeforeCompile original, que registra o uniforme
+   specularMap; sem ela o three.js lança erro a cada quadro. Por isso ela é preservada (encadeada) nesse caso; os demais materiais ficam como antes. */
+function patch(m,code){const prev=(m.isGLTFSpecularGlossinessMaterial&&m.specularMap)?(m.__obc||(m.__obc=m.onBeforeCompile)):null;m.customProgramCacheKey=()=>code;m.onBeforeCompile=function(s,r){if(prev)prev.call(this,s,r);s.uniforms.uT=T;s.vertexShader="uniform float uT;\n"+s.vertexShader.replace("#include <begin_vertex>","#include <begin_vertex>\n"+code)}}
+
+/* terreno com cáusticas */
+const tg=new THREE.PlaneGeometry(920,230,460,115);tg.rotateX(-Math.PI/2);tg.translate(360,0,0);
+{const p=tg.attributes.position;for(let i=0;i<p.count;i++)p.setY(i,H(p.getX(i),p.getZ(i)));tg.computeVertexNormals();
+const n=tg.attributes.normal,c=new Float32Array(p.count*3);
+for(let i=0;i<p.count;i++){const x=p.getX(i),z=p.getZ(i),y=p.getY(i),r=Math.min(4,Math.max(0,Math.round((x+90)/180-.5))),sl=1-n.getY(i),
+ nz=fbm(x*.3,z*.3,3),sand=[.80,.74,.56],cold=[.46,.47,.44],dark=[.50,.46,.38];
+ let b=r==3?cold:r==1?dark:sand;const rock=ss(.12,.4,sl+(nz-.5)*.2),dp=Math.min(1,Math.max(.35,1+y/110));
+ const k=(.82+nz*.3)*dp;c[i*3]=(b[0]*(1-rock)+.30*rock)*k;c[i*3+1]=(b[1]*(1-rock)+.30*rock)*k;c[i*3+2]=(b[2]*(1-rock)+.28*rock)*k}
+tg.setAttribute("color",new THREE.BufferAttribute(c,3))}
+const CAUS={value:1},tm=new THREE.MeshStandardMaterial({vertexColors:true,roughness:1});
+tm.onBeforeCompile=s=>{s.uniforms.uT=T;s.uniforms.uC=CAUS;
+ s.vertexShader="varying vec3 vWP;\n"+s.vertexShader.replace("#include <begin_vertex>","#include <begin_vertex>\nvWP=(modelMatrix*vec4(transformed,1.)).xyz;");
+ s.fragmentShader="uniform float uT,uC;varying vec3 vWP;\n"+s.fragmentShader.replace("#include <emissivemap_fragment>","#include <emissivemap_fragment>\nif(uC>.02){float a=sin(vWP.x*.7+uT*.8)+sin(vWP.z*.8-uT)+sin((vWP.x+vWP.z)*.45+uT*.6)+sin((vWP.x-vWP.z)*.9-uT*.5);float cc=pow(1.-abs(sin(a*1.1)),7.);totalEmissiveRadiance+=vec3(.35,.6,.65)*cc*uC*smoothstep(-34.,-6.,vWP.y)*.9;}")};
+const terrain=new THREE.Mesh(tg,tm);terrain.receiveShadow=true;scene.add(terrain);
+
+/* superfície vista de baixo */
+const sm=new THREE.ShaderMaterial({transparent:false,fog:true,side:THREE.DoubleSide,
+ uniforms:THREE.UniformsUtils.merge([THREE.UniformsLib.fog,{uT:T}]),
+ vertexShader:"varying vec3 vW;\n#include <fog_pars_vertex>\nvoid main(){vec4 w=modelMatrix*vec4(position,1.);vW=w.xyz;vec4 mvPosition=viewMatrix*w;gl_Position=projectionMatrix*mvPosition;\n#include <fog_vertex>\n}",
+ fragmentShader:"uniform float uT;uniform vec4 uB;varying vec3 vW;\n#include <fog_pars_fragment>\nvoid main(){vec2 p=vW.xz*.12;float c=sin(p.x*3.+uT*.6)*sin(p.y*3.-uT*.5)+sin((p.x+p.y)*5.+uT*.8)*.6;c=c*.3+.5;if(uB.w>0.){float k=smoothstep(uB.z*.5,uB.z*.8,length(vW.xz-uB.xy));if(fract(sin(dot(gl_FragCoord.xy,vec2(12.9898,78.233)))*43758.5453)>k)discard;}gl_FragColor=vec4(mix(vec3(.55,.85,.95),vec3(.95,1.,1.),c),1.);\n#include <fog_fragment>\n}"});
+sm.uniforms.uT=T;sm.uniforms.uB={value:new THREE.Vector4(0,0,0,0)}; // uT compartilhado com a cena; uB = janela na superfície (x,z,raio,ativo)
+const surf=new THREE.Mesh(new THREE.PlaneGeometry(900,900).rotateX(-Math.PI/2),sm);scene.add(surf);
+
+/* raios de sol (planos cruzados com gradiente) */
+const rays=new THREE.Group(),rayMats=[];
+{const c=document.createElement("canvas");c.width=64;c.height=256;const x=c.getContext("2d"),g=x.createLinearGradient(0,0,0,256);g.addColorStop(0,"rgba(255,255,255,.9)");g.addColorStop(.6,"rgba(255,255,255,.25)");g.addColorStop(1,"rgba(255,255,255,0)");x.fillStyle=g;x.fillRect(0,0,64,256);
+ const h=x.createLinearGradient(0,0,64,0);h.addColorStop(0,"rgba(0,0,0,1)");h.addColorStop(.5,"rgba(0,0,0,0)");h.addColorStop(1,"rgba(0,0,0,1)");x.globalCompositeOperation="destination-out";x.fillStyle=h;x.fillRect(0,0,64,256);
+ const tex=new THREE.CanvasTexture(c);
+ for(let i=0;i<16;i++){const w=3+rnd()*7,m=new THREE.MeshBasicMaterial({map:tex,transparent:true,opacity:.2,blending:THREE.AdditiveBlending,depthWrite:false,fog:false,color:0xbfeaff,side:THREE.DoubleSide});rayMats.push(m);
+  for(let k=0;k<2;k++){const g=new THREE.PlaneGeometry(w,70,1,1);g.translate(0,-35,0);const p=g.attributes.position;for(let j=0;j<p.count;j++)p.setX(j,p.getX(j)+p.getY(j)*.22);
+   const mesh=new THREE.Mesh(g,m);mesh.rotation.y=k*Math.PI/2;mesh.position.set((rnd()-.5)*110,0,(rnd()-.5)*110);mesh.userData={ox:mesh.position.x,oz:mesh.position.z,ph:rnd()*6};rays.add(mesh)}}}
+scene.add(rays);
+
+/* partículas em suspensão (sem custo de CPU) */
+const pg=new THREE.BufferGeometry(),pp=new Float32Array(2400*3);for(let i=0;i<pp.length;i++)pp[i]=rnd()*80;pg.setAttribute("position",new THREE.BufferAttribute(pp,3));
+const PU={uCam:{value:new THREE.Vector3()},uT:T};
+const parts=new THREE.Points(pg,new THREE.ShaderMaterial({transparent:true,depthWrite:false,uniforms:PU,
+ vertexShader:"uniform vec3 uCam;uniform float uT;void main(){vec3 p=mod(position+vec3(uT*.15,-uT*.05,uT*.1)-uCam+40.,80.)-40.;vec4 mv=viewMatrix*vec4(p+uCam,1.);gl_Position=projectionMatrix*mv;gl_PointSize=clamp(90./-mv.z,1.,5.);}",
+ fragmentShader:"void main(){float d=length(gl_PointCoord-.5);if(d>.5)discard;gl_FragColor=vec4(.85,.95,1.,.35*(1.-d*2.));}"}));
+parts.frustumCulled=false;scene.add(parts);
+
+/* ============ ORGANISMOS (geometria procedural orgânica, sem primitivas visíveis) ============ */
+const U=THREE.BufferGeometryUtils,V3=THREE.Vector3,rv=s=>new V3((rnd()-.5)*2*s,(rnd()-.5)*2*s,(rnd()-.5)*2*s);
+const paint=(g,f)=>{const p=g.attributes.position,c=new Float32Array(p.count*3);for(let i=0;i<p.count;i++){const v=f(p.getX(i),p.getY(i),p.getZ(i));c[i*3]=c[i*3+1]=c[i*3+2]=v}g.setAttribute("color",new THREE.BufferAttribute(c,3));return g};
+const weld=g=>{g.deleteAttribute("normal");g.deleteAttribute("uv");return U.mergeVertices(g)};
+function branch(out,p,d,len,rad,depth,sp,kids){const e=p.clone().addScaledVector(d,len),m=p.clone().lerp(e,.5).add(rv(len*.15));
+ out.push(new THREE.TubeGeometry(new THREE.CatmullRomCurve3([p,m,e]),4,rad,6,false));
+ if(depth>0)for(let i=0;i<kids;i++){const nd=d.clone().add(rv(sp));nd.y=Math.abs(nd.y)*.7+.3;nd.normalize();branch(out,e,nd,len*.72,rad*.72,depth-1,sp,kids)}}
+function coralBranch(depth,sp,kids,len,rad){const o=[];branch(o,new V3(0,0,0),new V3(0,1,0),len,rad,depth,sp,kids);const g=U.mergeBufferGeometries(o);return paint(g,(x,y)=>.5+.5*Math.min(1,y/2.2))}
+function brain(){const g=weld(new THREE.SphereGeometry(1,40,28)),p=g.attributes.position;
+ for(let i=0;i<p.count;i++){const x=p.getX(i),y=p.getY(i),z=p.getZ(i),r=1-.07*Math.abs(Math.sin(fbm(x*2.5+3,z*2.5+y*2)*16));p.setXYZ(i,x*r*1.15,Math.max(y*r*.62,-.18),z*r*1.15)}
+ g.computeVertexNormals();return paint(g,(x,y,z)=>.6+.4*fbm(x*5,z*5+y*3))}
+function table(){const g=weld(new THREE.SphereGeometry(1,40,10,0,Math.PI*2,0,1.15)),p=g.attributes.position;
+ for(let i=0;i<p.count;i++){const x=p.getX(i),y=p.getY(i),z=p.getZ(i),a=Math.atan2(z,x),rr=Math.hypot(x,z),w=1+.12*Math.sin(a*7+fbm(x*2,z*2)*6)*rr;p.setXYZ(i,x*w*1.6,y*.28+.7+.04*Math.sin(rr*18)+.15*rr*rr*-1,z*w*1.6)}
+ g.computeVertexNormals();return paint(g,(x,y,z)=>.65+.35*(1-Math.hypot(x,z)/1.7))}
+function rock(){const g=weld(new THREE.IcosahedronGeometry(1,4)),p=g.attributes.position;
+ for(let i=0;i<p.count;i++){const x=p.getX(i),y=p.getY(i),z=p.getZ(i),n=fbm(x*1.3+z*3.1+5,y*1.3+z*1.7+2),m=fbm(x*4+z*2,y*4+z*5,3),r=1+(n-.5)*.9+(m-.5)*.18;p.setXYZ(i,x*r*1.15,Math.max(y*r*.72,-.45),z*r)}
+ g.computeVertexNormals();return paint(g,(x,y,z)=>.55+.45*fbm(x*3+y,z*3)+Math.max(0,y)*.1)}
+function kelp(){const g=new THREE.PlaneGeometry(.55,1,1,14),p=g.attributes.position;
+ for(let i=0;i<p.count;i++){const t=p.getY(i)+.5;p.setXYZ(i,p.getX(i)*(1-t*.85),t,Math.sin(t*3.2)*.12)}g.computeVertexNormals();return paint(g,(x,y)=>.55+.45*y)}
+const cm=new THREE.MeshStandardMaterial({vertexColors:true,roughness:.9,side:THREE.DoubleSide});
+const km=new THREE.MeshStandardMaterial({vertexColors:true,roughness:.7,side:THREE.DoubleSide});
+patch(km,"float ph=instanceMatrix[3].x*.3+instanceMatrix[3].z*.2;transformed.x+=sin(uT*.9+ph+transformed.y*2.)*transformed.y*transformed.y*.9;transformed.z+=cos(uT*.7+ph)*transformed.y*transformed.y*.5;");
+/* [tipo, geometria, material, densidades por região, escala min/max] */
+const TY=[
+ ["brain",brain(),cm,[170,10,260,10,300],[.7,1.6]],
+ ["stag",coralBranch(2,.55,3,1,.07),cm,[110,10,200,10,260],[.9,2.2]],
+ ["bush",coralBranch(2,.95,3,.55,.09),cm,[130,0,230,0,320],[.8,1.9]],
+ ["table",table(),cm,[60,0,110,0,150],[.8,2.4]],
+ ["rock",rock(),cm,[110,230,120,190,100],[.8,4.5]],
+ ["kelp",kelp(),km,[80,25,130,8,200],[.8,1.4]]];
+let ROCKS=[],KELP=[]; // posições (x,y,z,região) usadas para posicionar fauna perto de rochas e algas
+const RC=[0x6a6558,0x4f5963,0x6a6558,0x555a58,0x6a6558],col=new THREE.Color(),dm=new THREE.Object3D();
+for(const [nm,geo,mat,dens,sc] of TY){const list=[];
+ for(let r=0;r<5;r++){const n=Math.round(dens[r]*.55),cl=Math.ceil(n/9);
+  for(let c=0;c<cl;c++){const cx=r*180+(rnd()-.5)*160,cz=(rnd()-.5)*180,sg=nm=="rock"?9:5;
+   for(let k=0;k<9;k++){const x=cx+gauss()*sg,z=cz+gauss()*sg;if(x<-80||x>800||Math.abs(z)>100)continue;const y=H(x,z);if(r==1&&y<-46&&nm!="rock")continue;
+    list.push([x,y,z,r])}}}
+ if(nm=="rock")ROCKS=list;if(nm=="kelp")KELP=list;const im=new THREE.InstancedMesh(geo,mat,list.length);im.frustumCulled=false;im.castShadow=nm!="kelp";im.receiveShadow=true;
+ list.forEach(([x,y,z,r],i)=>{const s=sc[0]+rnd()*(sc[1]-sc[0]);dm.position.set(x,y-.1,z);dm.rotation.set((rnd()-.5)*.25,rnd()*6.28,(rnd()-.5)*.25);
+  if(nm=="kelp")dm.scale.set(s,(r==4?5:3)+rnd()*(r==4?9:5),s);else if(nm=="rock")dm.scale.set(s*(.8+rnd()*.7),s*(.6+rnd()*.7),s*(.8+rnd()*.7));else dm.scale.setScalar(s);
+  dm.updateMatrix();im.setMatrixAt(i,dm.matrix);
+  if(nm=="rock"){col.setHex(RC[r]).offsetHSL(0,0,(rnd()-.5)*.08)}else if(nm=="kelp"){col.setHSL(.27+rnd()*.07,.55,r==3?.2:.32)}
+  else{const P=PAL[r];col.setHex(P[Math.floor(rnd()*P.length)]).offsetHSL((rnd()-.5)*.03,0,(rnd()-.5)*.08)}
+  im.setColorAt(i,col)});PERF.add(im,nm=="rock"?"rock":nm=="kelp"?"kelp":"coral")}
+
+/* ---- peixes: casco loftado (corpo, cauda e dorsal), cardumes coordenados ---- */
+function fishGeo(){const N=11,S=8,pos=[],idx=[];
+ for(let i=0;i<N;i++){const t=i/(N-1),x=t-.5,h=.2*Math.pow(Math.sin(Math.PI*Math.min(1,t*.96+.03)),.75)*(1-t*.5)+.015,w=h*.55;
+  for(let j=0;j<S;j++){const a=j/S*6.283;pos.push(x,Math.cos(a)*h,Math.sin(a)*w)}}
+ for(let i=0;i<N-1;i++)for(let j=0;j<S;j++){const a=i*S+j,b=i*S+(j+1)%S,c=a+S,d=b+S;idx.push(a,c,b,b,c,d)}
+ const q=pos.length/3;pos.push(.46,0,0,.72,.22,0,.72,-.22,0,.55,0,0, .05,.17,0,-.12,.17,0,-.12,.3,0);
+ idx.push(q,q+1,q+3,q,q+3,q+2,q+4,q+5,q+6);
+ const g=new THREE.BufferGeometry();g.setAttribute("position",new THREE.Float32BufferAttribute(pos,3));g.setIndex(idx);g.computeVertexNormals();return g}
+const SH=[[-20,0,-10,18,40,[0xffd23c,0xfff0a0]],[30,-30,-14,12,30,[0x3a78c8,0xaad0f0]],[170,0,-20,25,50,[0xc8d4dc,0xe8eef0]],
+[330,-10,-12,16,50,[0xff8a30,0xffb060]],[380,20,-14,14,40,[0xc8d8e0]],[300,30,-10,10,30,[0xffd23c]],[400,-30,-12,14,35,[0xe05aa0,0xff9ad0]],
+[520,0,-16,12,14,[0x707880]],[700,0,-10,16,60,[0xff8a30]],[740,-20,-12,14,50,[0xc8d8e0]],[660,30,-8,10,40,[0xffd23c,0x4aa0e0]],[780,10,-14,12,40,[0xff5f7a]],[700,-40,-9,12,40,[0x40b89a]]]
+.map(([x,z,y,R,n,cs],i)=>({x,z,y:Math.max(y,H(x,z)+4),R,n,cs,sp:.12+rnd()*.08,ph:rnd()*6,off:Array.from({length:n},()=>({o:new V3(gauss()*3,gauss()*1.3,gauss()*3),s:.45+rnd()*.35,p:rnd()*6}))}));
+const NF=SH.reduce((a,s)=>a+s.n,0),fm=new THREE.MeshStandardMaterial({roughness:.5,metalness:.1,side:THREE.DoubleSide});
+patch(fm,"transformed.z+=sin(transformed.x*7.-uT*10.+instanceMatrix[3].x)*.07*smoothstep(-.1,.5,transformed.x);");
+const fish=new THREE.InstancedMesh(fishGeo(),fm,NF);fish.frustumCulled=false;fish.castShadow=false;scene.add(fish);
+{let i=0;for(const s of SH)for(let k=0;k<s.n;k++)fish.setColorAt(i++,col.setHex(s.cs[k%s.cs.length]).offsetHSL(0,0,(rnd()-.5)*.1))}
+function updFish(t){let i=0;for(const s of SH){const a=t*s.sp+s.ph,cx=s.x+Math.cos(a)*s.R,cz=s.z+Math.sin(a)*s.R*.7,cy=s.y+Math.sin(a*.7)*1.5,vx=-Math.sin(a),vz=Math.cos(a)*.7;
+ for(const f of s.off){dm.position.set(cx+f.o.x+Math.sin(t*.5+f.p)*.8,cy+f.o.y,cz+f.o.z+Math.cos(t*.4+f.p)*.8);
+  dm.rotation.set(0,Math.atan2(-vz,vx)+Math.PI+Math.sin(t+f.p)*.15,0);dm.scale.setScalar(f.s*1.1);dm.updateMatrix();fish.setMatrixAt(i++,dm.matrix)}}
+ fish.instanceMatrix.needsUpdate=true}
+
+/* ---- Região 4: redes fantasma e plásticos ---- */
+{const c=document.createElement("canvas");c.width=c.height=128;const x=c.getContext("2d");x.strokeStyle="#fff";x.lineWidth=3;
+ for(let i=-1;i<=8;i++){x.beginPath();x.moveTo(i*16,0);x.lineTo(i*16+128,128);x.moveTo(i*16+128,0);x.lineTo(i*16,128);x.stroke()}
+ const tex=new THREE.CanvasTexture(c);tex.wrapS=tex.wrapT=THREE.RepeatWrapping;tex.repeat.set(26,18);
+ const nm=new THREE.MeshStandardMaterial({color:0x4d6a58,map:tex,alphaTest:.4,roughness:1,side:THREE.DoubleSide});
+ const net=(x0,z0,w,d,mode)=>{const g=new THREE.PlaneGeometry(w,d,50,36),p=g.attributes.position;
+  for(let i=0;i<p.count;i++){const u=p.getX(i),v=p.getY(i),wx=x0+u,wz=z0+(mode?0:v),n=fbm(wx*.2,wz*.2+v*.2)*2;
+   if(mode){const top=H(wx,z0)+13+n,bot=H(wx,z0)+.5;p.setXYZ(i,wx,bot+(top-bot)*(v/d+.5)+Math.sin(u*.7)*.6,z0+Math.sin(u*.3+v*.4)*2.5)}
+   else p.setXYZ(i,wx,H(wx,wz)+.6+n*.5,wz)}
+  g.computeVertexNormals();const m=new THREE.Mesh(g,nm);m.receiveShadow=true;scene.add(m)};
+ /* redes: ver pollution.js (loadNets) */}
+{const g=new THREE.PlaneGeometry(1,1.3,8,8),p=g.attributes.position;for(let i=0;i<p.count;i++)p.setZ(i,(fbm(p.getX(i)*3,p.getY(i)*3)-.5)*.5);g.computeVertexNormals();
+ const m=new THREE.MeshStandardMaterial({color:0xdde8ee,transparent:true,opacity:.5,roughness:.3,side:THREE.DoubleSide,depthWrite:false});patch(m,"transformed.z+=sin(uT*1.4+instanceMatrix[3].x)*.15*transformed.y;");
+ const n=90,im=new THREE.InstancedMesh(g,m,n);im.frustumCulled=false;
+ for(let i=0;i<n;i++){const x=470+rnd()*140,z=(rnd()-.5)*170,fl=i<40;dm.position.set(x,H(x,z)+(fl?3+rnd()*11:.15),z);dm.rotation.set(fl?rnd()*6:-Math.PI/2+(rnd()-.5)*.3,rnd()*6,fl?rnd()*6:0);dm.scale.setScalar(.7+rnd()*1.1);dm.updateMatrix();im.setMatrixAt(i,dm.matrix);im.setColorAt(i,col.setHSL(rnd()<.3?.55:.5,.2,.75+rnd()*.2))}
+ PERF.add(im,"local",{single:true})}
+
+/* ============ MODELOS 3D (GLB) ============ */
+const Q=Math.min(1,Math.max(.15,+(new URLSearchParams(location.search).get("q")||.5))); // ?q=1 qualidade máxima, ?q=.25 PCs fracos
+const mixers=[],animals=[],GL=new THREE.GLTFLoader(),stat={s:0,c:0,f:0,fail:[]};
+const loadGLB=u=>new Promise((ok,no)=>GL.load(u,ok,undefined,no));
+const fixTex=(o,small)=>o.traverse(m=>{if(!m.isMesh)return;(Array.isArray(m.material)?m.material:[m.material]).forEach(x=>{["map","emissiveMap"].forEach(k=>{if(x[k])x[k].encoding=THREE.LinearEncoding});PERF.shrink(x,small)})});
+const angd=(a,b)=>{let d=b-a;while(d>Math.PI)d-=6.2832;while(d<-Math.PI)d+=6.2832;return d};
+function posedBoxes(root){root.updateMatrixWorld(true);const out=[],v=new V3();
+ root.traverse(m=>{if(!m.isMesh)return;const p=m.geometry.attributes.position,st=Math.max(1,Math.floor(p.count/2500)),pts=[];
+  if(m.isSkinnedMesh){m.skeleton.update();for(let i=0;i<p.count;i+=st){m.boneTransform(i,v);pts.push(v.clone().applyMatrix4(m.matrixWorld))}}
+  else for(let i=0;i<p.count;i+=st)pts.push(new V3().fromBufferAttribute(p,i).applyMatrix4(m.matrixWorld));
+  out.push({m,pts,n:p.count,box:new THREE.Box3().setFromPoints(pts)})});return out}
+const labEl=document.getElementById("lab");
+async function addShark(c){try{
+ const g=await loadGLB(c.url),o=g.scene;fixTex(o);let bs=posedBoxes(o);const mxn=Math.max(...bs.map(b=>b.n)),rb=new THREE.Box3();bs.forEach(b=>{if(b.n>=mxn*.5)rb.union(b.box)});const lim=rb.clone();lim.expandByVector(rb.getSize(new V3()).multiplyScalar(.3));
+ bs=bs.filter(b=>{const ok=lim.containsBox(b.box);if(!ok){b.m.visible=false;console.info("[museu] parte fora do corpo ocultada:",c.id,b.m.name)}return ok});
+ o.traverse(m=>{if(m.isMesh){m.frustumCulled=false;m.castShadow=true}});
+ const all=new THREE.Box3();bs.forEach(b=>all.union(b.box));const sz=all.getSize(new V3()),k=c.size/(c.axis=="x"?sz.x:sz.z);
+ o.scale.setScalar(k);o.position.copy(all.getCenter(new V3())).multiplyScalar(-k);
+ const piv=new THREE.Group();piv.rotation.y=c.yaw||0;piv.add(o);const w=new THREE.Group();w.rotation.order="YXZ";w.add(piv);scene.add(w);
+ let mixer=null,bn=null;if(g.animations.length){const clip=g.animations.find(a=>c.clip&&a.name.includes(c.clip))||g.animations[0];mixer=new THREE.AnimationMixer(o);const ac=mixer.clipAction(clip);ac.timeScale=c.anim||1;ac.time=Math.random()*clip.duration;ac.play();mixers.push(mixer)}else{if(UND&&c.und)addBend(o,c);if(c.bone)bn=addBones(o,c)}
+ const [cx,cy,cz]=c.p,[rx,rz]=c.r,btn=document.createElement("button");btn.className="lb";btn.textContent="ⓘ "+c.n;btn.onclick=()=>openFiche(c);btn.style.display="none";labEl.appendChild(btn);
+ animals.push({c,w,piv,btn,mixer,bn,t:Math.random()*40,w0:c.sp/((rx+rz)/2),dir:c.dir||1,ph:Math.random()*6,yaw:0,pit:0,roll:0,init:false});stat.s++}
+ catch(e){console.warn("[museu] falha ao carregar",c.url,e);stat.fail.push(c.n)}
+ st()}
+/* Animação por esqueleto procedural (modelo com ossos, mas sem clipes de animação): ondas suaves de rotação em torno do eixo vertical
+   nos ossos da coluna traseira. Os ossos compõem o movimento (cada um gira pouco); a malha original não é editada. */
+const qt=new THREE.Quaternion();
+function addBones(o,c){o.updateMatrixWorld(true);const inv=new THREE.Matrix4().copy(o.matrixWorld).invert(),out=[],p=new V3(),q=new THREE.Quaternion(),s=new V3();
+ c.bone.names.forEach((nm,i)=>{let bone=null;o.traverse(b=>{if(b.isBone&&b.name.replace(/[^A-Za-z0-9]/g,"").startsWith("Bone"+nm))bone=b});if(!bone||!bone.parent){console.warn("[museu] osso não encontrado:",nm);return}
+  new THREE.Matrix4().copy(inv).multiply(bone.parent.matrixWorld).decompose(p,q,s);out.push({b:bone,r:bone.quaternion.clone(),ax:new V3(0,1,0).applyQuaternion(q.clone().invert()),amp:c.bone.amp[i]})});return out}
+const sv=new V3(),UND=new URLSearchParams(location.search).get("undulate")!=="0"; // ?undulate=0 desliga a ondulação procedural
+/* Ondulação procedural (só nos modelos sem esqueleto/animação): desloca lateralmente apenas o terço traseiro do corpo no shader.
+   A geometria original não é alterada; UVs e texturas ficam intactos; amplitude pequena (≈4% do comprimento na ponta da cauda). */
+function addBend(o,c){const fo=(c.axis=="x"?new V3(1,0,0):new V3(0,0,1)).multiplyScalar(c.fsign||1),lo=c.axis=="x"?new V3(0,0,1):new V3(1,0,0);o.updateMatrixWorld(true);
+ const inv=new THREE.Matrix4().copy(o.matrixWorld).invert(),p=new V3(),q=new THREE.Quaternion(),s=new V3(),n=v=>v.toFixed(5);
+ o.traverse(m=>{if(!m.isMesh||!m.visible||Array.isArray(m.material))return;new THREE.Matrix4().copy(inv).multiply(m.matrixWorld).decompose(p,q,s);
+  const qi=q.clone().invert(),f=fo.clone().applyQuaternion(qi),l=lo.clone().applyQuaternion(qi),a=m.geometry.attributes.position;let mn=1e9,mx=-1e9;
+  for(let i=0;i<a.count;i++){const d=a.getX(i)*f.x+a.getY(i)*f.y+a.getZ(i)*f.z;if(d<mn)mn=d;if(d>mx)mx=d}
+  const L=mx-mn,om=6.2832*c.und.beat;
+  patch(m.material,"float s_=clamp(("+n(mx)+"-dot(transformed,vec3("+n(f.x)+","+n(f.y)+","+n(f.z)+")))/"+n(L)+",0.,1.);float w_=smoothstep(.3,1.,s_);w_*=w_;transformed+=vec3("+n(l.x)+","+n(l.y)+","+n(l.z)+")*"+n(c.und.amp*L)+"*w_*sin(6.2832*s_*.6-uT*"+n(om)+(c.und.inst?"+instanceMatrix[3].x*.9+instanceMatrix[3].z*.7":"")+");")})}
+function updSharks(dt){
+ for(const a of animals){const c=a.c,[cx,cy,cz]=c.p,[rx,rz]=c.r;a.t+=dt;let th,RX=rx,RZ=rz;if(a.mixer)th=a.t*a.w0*a.dir+a.ph;else{a.th=(a.th==null?a.ph:a.th)+dt*a.w0*a.dir*(1+.3*Math.sin(a.t*.19+a.ph));th=a.th;RX=rx*(1+.1*Math.sin(a.t*.05+a.ph));RZ=rz*(1+.1*Math.cos(a.t*.043+a.ph))}
+  const x=cx+Math.cos(th)*RX,z=cz+Math.sin(th)*RZ;let y=cy+Math.sin(th*1.7)*(c.dy||1.5);const g=H(x,z);y=Math.max(y,g+(c.floor!=null?c.floor:c.size*.3+1.5));
+  const vx=-Math.sin(th)*RX*a.dir,vz=Math.cos(th)*RZ*a.dir,tgt=Math.atan2(vx,vz);
+  if(!a.init){a.w.position.set(x,y,z);a.w.rotation.y=tgt;a.init=true}
+  const dy=y-a.w.position.y,hv=Math.hypot(a.w.position.x-x,a.w.position.z-z)+.001;
+  a.w.position.x+=(x-a.w.position.x)*Math.min(1,dt*3);a.w.position.z+=(z-a.w.position.z)*Math.min(1,dt*3);a.w.position.y+=dy*Math.min(1,dt*1.5);
+  const turn=angd(a.w.rotation.y,tgt);a.w.rotation.y+=turn*Math.min(1,dt*1.8);
+  a.pit+=((-Math.atan2(dy,Math.max(c.size*.4,2)) *.6)-a.pit)*Math.min(1,dt);a.w.rotation.x=Math.max(-.25,Math.min(.25,a.pit));
+  a.roll+=((-turn*.5)-a.roll)*Math.min(1,dt);a.w.rotation.z=Math.max(-.2,Math.min(.2,a.roll));
+  if(!a.mixer&&!a.bn)a.piv.rotation.y=(c.yaw||0)+(c.und?Math.sin(T.value*6.2832*c.und.beat+1.6)*.02:Math.sin(a.t*1.2)*.05);
+  if(a.bn)a.bn.forEach((k,i)=>k.b.quaternion.copy(k.r).premultiply(qt.setFromAxisAngle(k.ax,k.amp*Math.sin(T.value*6.2832*c.bone.beat-i*c.bone.lag+a.ph))));{const dd=a.w.position.distanceTo(cam.position),vs=dd<PERF.P.sharkD&&PERF.frustum.intersectsSphere(PERF.sph.set(a.w.position,c.size*.7));if(a.w.visible!==vs)a.w.visible=vs;if(vs&&a.mixer){a._f=(a._f||0)+1;if(dd<55||(a._f&1))a.mixer.update(dd<55?dt:dt*2)}}
+  sv.copy(a.w.position);sv.y+=c.size*.22;const d=sv.distanceTo(cam.position);sv.project(cam);
+  const on=d<60&&sv.z<1&&Math.abs(sv.x)<1&&Math.abs(sv.y)<1;a.btn.style.display=on?"block":"none";
+  if(on){a.btn.style.left=(sv.x*.5+.5)*innerWidth+"px";a.btn.style.top=(-sv.y*.5+.5)*innerHeight+"px";a._d=d;a._sx=sv.x;a._sy=sv.y}else a._d=1e9}}
+function openFiche(c){discover(c.id);const i=c.info;$("et").textContent="Ficha da espécie";
+ $("eb").innerHTML="<h4>"+c.n+"</h4><small><i>"+i.sci+"</i></small><ul><li><b>Tamanho:</b> "+i.tam+"</li><li><b>Alimentação:</b> "+i.ali+"</li><li><b>Habitat:</b> "+i.hab+"</li><li><b>Anatomia:</b> "+i.ana+"</li><li><b>Curiosidade:</b> "+i.cur+"</li><li><b>Conservação:</b> "+i.cons+"</li></ul>";openPanel();$("eb").scrollTop=0} // mesmo painel (openPanel/closeEdu) dos pontos educativos
+let dn=null;cv.addEventListener("pointerdown",e=>dn=[e.clientX,e.clientY]);
+cv.addEventListener("pointerup",e=>{if(!dn||Math.hypot(e.clientX-dn[0],e.clientY-dn[1])>6)return;let best=null,bd=1e9;
+ for(const a of animals){if(a._d>90)continue;const px=(a._sx*.5+.5)*innerWidth,py=(-a._sy*.5+.5)*innerHeight,r=Math.max(40,a.c.size*.7/a._d*innerHeight/(2*Math.tan(cam.fov*.00873)));const d=Math.hypot(e.clientX-px,e.clientY-py);if(d<r&&d<bd){bd=d;best=a}}
+ if(best)openFiche(best.c)});
+const st=()=>document.getElementById("models").textContent="Tubarões: "+stat.s+"/"+SHARKS.length+" · Corais: "+stat.c+"/"+CORALS.length+" · Fauna/FX: "+stat.f+"/"+(FAUNA.length+4)+(stat.fail.length?" · falhou: "+stat.fail.join(", "):"");
+/* corais GLB instanciados sobre o terreno */
+async function addCoral(c){try{
+ const o=(await loadGLB(c.url)).scene;fixTex(o,1);o.updateMatrixWorld(true);const bx=new THREE.Box3().setFromObject(o),sz=bx.getSize(new V3()),ct=bx.getCenter(new V3()),k=1/Math.max(sz.x,sz.z);
+ const nm=new THREE.Matrix4().makeScale(k,k,k).multiply(new THREE.Matrix4().makeTranslation(-ct.x,-bx.min.y,-ct.z)),list=[];
+ for(let r=0;r<5;r++){const n=Math.ceil(c.n[r]*Q),cl=Math.ceil(n/3);for(let q=0;q<cl;q++){const cx=r*180+(rnd()-.5)*150,cz=(rnd()-.5)*170;
+  for(let j=0;j<3&&list.length<1e3;j++){if(list.length>=n&&j>0&&q*3+j>=n)break;const x=cx+gauss()*6,z=cz+gauss()*6;if(x<-75||x>795||Math.abs(z)>95)continue;const y=H(x,z);if(r==1&&(y<-46||z>30))continue;list.push([x,y,z,r])}}}
+ if(!list.length){stat.c++;st();return}
+ o.traverse(m=>{if(!m.isMesh)return;const geo=m.geometry.clone().applyMatrix4(m.matrixWorld).applyMatrix4(nm),im=new THREE.InstancedMesh(geo,m.material,list.length);im.frustumCulled=false;
+  list.forEach(([x,y,z,r],i)=>{const s=c.size*(.75+.5*((i*7919)%100)/100);dm.position.set(x,y-c.size*.04,z);dm.rotation.set((((i*31)%10)-5)*.012,((i*131)%628)/100,(((i*17)%10)-5)*.012);dm.scale.setScalar(s);dm.updateMatrix();im.setMatrixAt(i,dm.matrix);
+   im.setColorAt(i,col.setHex(r==3?0x8f948c:0xffffff).multiplyScalar(r==3?1:.88+.12*((i*53)%100)/100))});PERF.add(im,["chromaflare","pillar","longledges"].includes(c.id)?"hero":"coral")});
+ stat.c++}catch(e){console.warn("[museu] coral falhou",c.url,e);stat.fail.push(c.id)}st()}
+async function loadAll(){st();for(const c of SHARKS)await addShark(c);await loadFauna();await loadPollution();for(const c of CORALS)await addCoral(c);st()}
+
+/* ============ PONTOS EDUCATIVOS (um ponto por tópico, ancorado no cenário) ============ */
+const $=id=>document.getElementById(id),vis=[0,1,2,3,4].map(()=>new Set()),POIS=[],gd=$("guide");let guide=null,guideT=0,nearP=null;
+for(const r in PTS)PTS[r].forEach((p,i)=>POIS.push({r:+r,t:i,n:i+1,reach:p[3]||14,v:new V3(p[0],p[4]!=null?p[4]:Math.min(H(p[0],p[1])+p[2],-5),p[1])}));
+const rname=r=>REG[r].n.split("· ")[1];
+function updProg(){const N=EDU[cur].topics.length,k=vis[cur].size;$("pt").textContent="Região "+rname(cur)+" — "+k+" de "+N+" pontos visitados"+(k==N?" ✓":"")}
+function openPoi(p){const E=EDU[p.r],T=E.topics[p.t];vis[p.r].add(p.t);$("et").textContent="Ponto "+p.n+" de "+E.topics.length+" · "+rname(p.r);
+ $("eb").innerHTML="<h4>"+T.t+"</h4><small>"+T.sub+"</small>"+(T.quiz?"":T.h);if(T.quiz)renderQuiz(T);openPanel();$("eb").scrollTop=0;if(guide===p)guide=null;updProg()}
+let reading=false; // enquanto um painel está aberto, a navegação fica suspensa
+function openPanel(){reading=true;vel.set(0,0,0);ty=yaw;tp=pitch;drag=false;document.body.classList.add("reading");$("dim").style.display="block";$("edu").style.display="flex";Object.keys(keys).forEach(k=>keys[k]=false);fwdBtn=false}
+function closeEdu(){reading=false;document.body.classList.remove("reading");$("dim").style.display="none";$("edu").style.display="none";if(DISC.pend)setTimeout(showConquest,350)}
+function nextPoi(){const c=POIS.filter(p=>p.r==cur&&!vis[cur].has(p.t));if(!c.length){$("pt").textContent="Região "+rname(cur)+" — todos os pontos visitados ✓";return}guide=c[0];guideT=T.value+14}
+function renderQuiz(T){const box=document.createElement("div"),sum=document.createElement("p");let ok=0,done=0;sum.className="sum";
+ T.quiz.forEach((q,qi)=>{const d=document.createElement("div"),fb=document.createElement("p");d.className="qz";d.innerHTML="<p><b>"+(qi+1)+". "+q.q+"</b></p>";fb.className="fb";
+  q.o.forEach((o,oi)=>{const b=document.createElement("button");b.textContent=o;b.onclick=()=>{if(d.dataset.done)return;d.dataset.done=1;done++;const right=oi==q.c;if(right)ok++;b.classList.add(right?"ok":"no");if(!right)d.children[1+q.c].classList.add("ok");
+   fb.textContent=(right?"Correto! ":"Quase! ")+q.f;if(done==T.quiz.length)sum.textContent="Você acertou "+ok+" de "+T.quiz.length+". Obrigado por explorar o museu!"};d.appendChild(b)});d.appendChild(fb);box.appendChild(d)});
+ box.appendChild(sum);$("eb").appendChild(box)}
+function showRefs(){$("et").textContent="Referências";$("eb").innerHTML="<h4>Onde conferir e aprofundar</h4><ul>"+REFS.map(r=>'<li><a href="'+r[1]+'" target="_blank" rel="noopener">'+r[0]+'</a></li>').join("")+"</ul><p>Os textos foram redigidos a partir de conhecimento geral consolidado, sem consulta a páginas específicas; os links levam às instituições para conferência.</p>";openPanel()}
+$("ex").onclick=closeEdu;$("dim").onclick=closeEdu;$("pnext").onclick=nextPoi;$("pref").onclick=showRefs;addEventListener("keydown",e=>{if(e.code=="Escape")closeEdu();if(e.code=="KeyF"&&nearP&&!reading)openPoi(nearP)});
+const poiEls=POIS.map(p=>{const b=document.createElement("button");b.className="poi";b.setAttribute("aria-label","Ponto "+p.n+": "+EDU[p.r].topics[p.t].t);b.innerHTML="<b>"+p.n+"</b><span class=pl2>"+EDU[p.r].topics[p.t].t+" · abrir</span>";b.onclick=()=>openPoi(p);$("poi").appendChild(b);return b});
+function updPOI(){nearP=null;let nd=1e9;
+ POIS.forEach((p,i)=>{const e=poiEls[i];sv.copy(p.v);const d=sv.distanceTo(cam.position);sv.project(cam);const on=p.r==cur&&d<110&&d>1.5&&sv.z<1&&Math.abs(sv.x)<1.05&&Math.abs(sv.y)<1.05;e.style.display=on?"flex":"none";
+  if(on){e.style.left=(sv.x*.5+.5)*innerWidth+"px";e.style.top=(-sv.y*.5+.5)*innerHeight+"px";e.style.transform="translate(-50%,-50%) scale("+Math.max(.7,Math.min(1.5,38/d+.4))+")";e.classList.toggle("near",d<Math.max(16,p.reach));e.classList.toggle("vis",vis[p.r].has(p.t));if(d<p.reach&&d<nd&&Math.abs(sv.x)<.9){nd=d;nearP=p}}});
+ if(guide&&T.value<guideT){sv.copy(guide.v);const d=sv.distanceTo(cam.position);sv.project(cam);let x=sv.x,y=sv.y;const front=sv.z<1;if(!front){x=-x;y=-y}const m=Math.max(Math.abs(x),Math.abs(y),.001),inside=front&&m<.85,k=m>.85?.85/m:1;
+  gd.style.display="block";gd.style.left=((x*k)*.5+.5)*innerWidth+"px";gd.style.top=(-(y*k)*.5+.5)*innerHeight+(inside?-34:0)+"px";gd.textContent=(inside?"▼":Math.abs(x)>Math.abs(y)?(x>0?"→":"←"):(y>0?"↑":"↓"))+" Ponto "+guide.n+" · "+Math.round(d)+" m"}else gd.style.display="none"}
+
+/* ============ TUBARÕES DESCOBERTOS (contador, persistência e mensagem de conclusão) ============ */
+/* A descoberta é registrada em openFiche(c) (único caminho que abre a ficha de um tubarão), pelo id estável de SHARKS. Salvo em localStorage. */
+const DKEY="museu.tubaroes.descobertos",SHARK_IDS=SHARKS.map(c=>c.id),DISC={found:new Set(),done:false,pend:false,mem:null,t:0,rt:0};
+function dLoad(){let o=null;try{o=JSON.parse(localStorage.getItem(DKEY))}catch(e){o=DISC.mem}
+ if(o&&Array.isArray(o.found))o.found.forEach(id=>{if(SHARK_IDS.includes(id))DISC.found.add(id)});DISC.done=!!(o&&o.done)||DISC.found.size>=SHARK_IDS.length}
+function dSave(){const o={v:1,found:[...DISC.found],done:DISC.done};DISC.mem=o;try{localStorage.setItem(DKEY,JSON.stringify(o))}catch(e){}}
+function dRender(){const n=DISC.found.size,t=SHARK_IDS.length,f=t-n;$("dn").textContent=n+"/"+t;$("dbi").style.width=(n/t*100)+"%";
+ $("dsub").textContent=f==0?"Todas as espécies descobertas!":f==1?"Falta 1 espécie para descobrir!":"Faltam "+f+" espécies para descobrir!"}
+function discover(id){if(!SHARK_IDS.includes(id)||DISC.found.has(id))return;DISC.found.add(id);
+ if(DISC.found.size>=SHARK_IDS.length&&!DISC.done){DISC.done=true;DISC.pend=true}dSave();dRender()} // a mensagem de conclusão (DISC.pend) é exibida pelo closeEdu, depois que a ficha fecha
+function showConquest(){DISC.pend=false;const e=$("conq");e.classList.add("show");clearTimeout(DISC.t);DISC.t=setTimeout(()=>e.classList.remove("show"),11000)} // some sozinho; só aparece uma vez
+function dCancel(){clearTimeout(DISC.rt);$("dask").style.display="none";$("dreset").style.display=""}
+$("dreset").onclick=()=>{$("dreset").style.display="none";$("dask").style.display="flex";clearTimeout(DISC.rt);DISC.rt=setTimeout(dCancel,8000)};
+$("dno").onclick=dCancel;
+$("dyes").onclick=()=>{DISC.found.clear();DISC.done=false;DISC.pend=false;DISC.mem=null;try{localStorage.removeItem(DKEY)}catch(e){}$("conq").classList.remove("show");dCancel();dRender()}; // apaga só esta chave
+dLoad();dRender();
+
+/* ============ NAVEGAÇÃO ============ */
+let yaw=0,pitch=-.1,ty=0,tp=-.1,drag=false,fly=null,fwdBtn=false;const keys={},vel=new V3();cam.position.set(-64,Math.min(-4,Math.max(-14,H(-64,-6)+8)),-6);
+cv.addEventListener("pointerdown",e=>{drag=true;cv.setPointerCapture(e.pointerId);cv.style.cursor="grabbing"});
+cv.addEventListener("pointerup",()=>{drag=false;cv.style.cursor="grab"});
+cv.addEventListener("pointermove",e=>{if(!drag)return;ty+=e.movementX*.003;tp=Math.max(-1.2,Math.min(1.2,tp-e.movementY*.003))});
+addEventListener("keydown",e=>{if(reading){if(e.code=="Space")e.preventDefault();return}keys[e.code]=true;if(e.code=="Space")e.preventDefault()});addEventListener("keyup",e=>keys[e.code]=false);
+const fb=document.getElementById("fwd");fb.onpointerdown=()=>fwdBtn=true;fb.onpointerup=fb.onpointerleave=()=>fwdBtn=false;
+function regionIdx(){return Math.max(0,Math.min(4,Math.floor((cam.position.x+90)/180)))}
+/* Pontos de entrada ao usar o menu. Só a Conservação (4) tem entrada própria: logo após a divisa com Ameaças (x=630), na passagem entre as cristas
+   (z=-12), olhando levemente para +z (yaw .17 rad) para que os pontos 1 e 2 fiquem à frente. As demais regiões mantêm a fórmula original. */
+const ENTRY={4:{x:634,z:-12,yaw:.17}};
+function flyTo(i){const e=ENTRY[i]||{},x=e.x!=null?e.x:i*180-55,z=e.z!=null?e.z:(i==1?-50:-8),ya=e.yaw||0;fly={f:cam.position.clone(),t:new V3(x,Math.max(H(x,z)+9,-20),z),k:0,y:yaw,ya};ty=ya;tp=-.06}
+const ease=k=>k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;
+function move(dt){if(reading){vel.set(0,0,0);return} // painel aberto: sem movimento
+ 
+ if(fly){fly.k+=dt/3.2;const e=ease(Math.min(1,fly.k));cam.position.lerpVectors(fly.f,fly.t,e);yaw+=((fly.ya||0)-yaw)*Math.min(1,dt*2);if(fly.k>=1)fly=null;return}
+ const sp=(keys.ShiftLeft||keys.ShiftRight)?15:6.5,f=(keys.KeyW||keys.ArrowUp||fwdBtn?1:0)-(keys.KeyS||keys.ArrowDown?1:0),s=(keys.KeyD||keys.ArrowRight?1:0)-(keys.KeyA||keys.ArrowLeft?1:0),u=(keys.Space?1:0)-(keys.KeyC||keys.ControlLeft?1:0);
+  const cp=Math.cos(pitch),d=new V3(Math.cos(yaw)*cp,Math.sin(pitch),Math.sin(yaw)*cp),r=new V3(-Math.sin(yaw),0,Math.cos(yaw));
+ const want=d.multiplyScalar(f).addScaledVector(r,s).add(new V3(0,u,0)).multiplyScalar(sp);vel.lerp(want,Math.min(1,dt*2.2));cam.position.addScaledVector(vel,dt);
+ const p=cam.position;p.x=Math.max(-72,Math.min(800,p.x));p.z=Math.max(-100,Math.min(100,p.z));p.y=Math.min(p.y,-1.6);const fl=H(p.x,p.z)+1.8;if(p.y<fl){p.y+=(fl-p.y)*Math.min(1,dt*6)}}
+
+/* ============ AMBIENTE / REGIÕES ============ */
+const fc=new THREE.Color(),fa=new THREE.Color(),fb2=new THREE.Color();let cur=-1,infoT;
+function env(){const x=cam.position.x,f=Math.max(0,Math.min(4.999,(x+90)/180)),i=Math.floor(f),t=ss(.55,1,f-i),a=REG[i],b=REG[Math.min(i+1,4)],L=(p,q)=>p+(q-p)*t;
+ const k=Math.max(0,Math.min(.6,-cam.position.y/90));fc.copy(fa.setHex(a.fog).lerp(fb2.setHex(b.fog),t)).multiplyScalar(1-k);
+ scene.fog.color.copy(fc);scene.background.copy(fc);scene.fog.density=L(a.den,b.den)*(1+k*.8)*PERF.P.fogMul;sun.intensity=L(a.sun,b.sun)*(1-k*.7);hemi.intensity=.9*(1-k*.6);
+ const ry=L(a.ray,b.ray)*Math.max(0,1+cam.position.y/55);rayMats.forEach(m=>m.opacity=ry*.35*PERF.rayK);CAUS.value=L(a.caus,b.caus)*PERF.P.caus}
+function setRegion(i){cur=i;const E=EDU[i],el=$("info"),n=E.topics.length;$("rn").textContent=E.title;$("rd").textContent="Região "+(i+1)+" de 5";guide=null;gd.style.display="none";
+ const hide=()=>{el.style.opacity=0;el.style.pointerEvents="none"},show=(t,ms,btn)=>{el.innerHTML=t+(btn?' <button id="io">'+btn+'</button>':"");el.style.opacity=1;el.style.pointerEvents="auto";if(btn)$("io").onclick=()=>{nextPoi();hide()};clearTimeout(infoT);infoT=setTimeout(hide,ms)};
+ show(E.intro+" Há <b>"+n+"</b> "+(n>1?"pontos educativos numerados":"ponto educativo")+" nesta região: procure os ícones ao explorar.",15000,"📍 Localizar ponto 1");
+ document.querySelectorAll("#menu button").forEach((b,j)=>b.classList.toggle("on",j==i));updProg();
+ if(i==4)setTimeout(()=>{if(cur==4)show(FINAL,15000)},20000)}
+REG.forEach((r,i)=>{const b=document.createElement("button");b.textContent=r.n;b.onclick=()=>flyTo(i);document.getElementById("menu").appendChild(b)});
+
+/* ============ ÁUDIO: ambiente (sintetizado) + música de fundo (arquivo local ou trilha gerada) ============ */
+/* Camadas: mg = ambiente do oceano · mus = música · master = volume geral/mudo. Todas as mudanças de volume são suavizadas. */
+let ac,master,mg,mus,mtog,muted=false,musicMode="",musicOn=true,musicEl=null;const vol=document.getElementById("vol"),mvol=document.getElementById("mvol"),gvol=document.getElementById("gvol");
+/* Para usar sua música: coloque um arquivo com licença adequada em audio/musica-ambiente.mp3 (ou .ogg). Sem o arquivo, entra uma trilha ambiente gerada pelo navegador. */
+const MUSIC_FILES=["audio/musica-ambiente.mp3","audio/musica-ambiente.ogg"];
+const smooth=(g,v,t)=>g.gain.setTargetAtTime(v,ac.currentTime,t||.4);
+function applyVol(){if(!ac)return;smooth(master,muted?0:+gvol.value,.3);smooth(mg,+vol.value*.5,.3);smooth(mus,+mvol.value*.35,.3)}
+function startAudio(){if(ac)return;ac=new (window.AudioContext||window.webkitAudioContext)();master=ac.createGain();master.gain.value=0;master.connect(ac.destination);
+ mg=ac.createGain();mg.gain.value=+vol.value*.5;mg.connect(master);mus=ac.createGain();mus.gain.value=+mvol.value*.35;mtog=ac.createGain();mtog.gain.value=musicOn?1:0;mtog.connect(master);mus.connect(mtog);
+ const len=ac.sampleRate*4,buf=ac.createBuffer(1,len,ac.sampleRate),d=buf.getChannelData(0);let l=0;for(let i=0;i<len;i++){l=(l+.02*(Math.random()*2-1))/1.02;d[i]=l*3.5}
+ const src=ac.createBufferSource();src.buffer=buf;src.loop=true;const lp=ac.createBiquadFilter();lp.type="lowpass";lp.frequency.value=420;
+ const lfo=ac.createOscillator(),lg=ac.createGain();lfo.frequency.value=.07;lg.gain.value=160;lfo.connect(lg);lg.connect(lp.frequency);lfo.start();
+ const o=ac.createOscillator(),og=ac.createGain();o.frequency.value=58;og.gain.value=.05;o.connect(og);og.connect(mg);o.start();src.connect(lp);lp.connect(mg);src.start();
+ applyVol();startMusic()}
+function startMusic(){if(musicMode)return;musicMode="loading";let i=0;const el=new Audio();el.preload="auto";
+ const next=()=>{if(musicMode!="loading")return;if(i>=MUSIC_FILES.length){genMusic();return}el.src=MUSIC_FILES[i++];el.load()};
+ el.addEventListener("error",next);
+ el.addEventListener("canplay",()=>{if(musicMode!="loading")return;musicMode="file";musicEl=el;setMstat("Música: arquivo "+el.src.split("/").pop());const fg=ac.createGain();fg.gain.value=0;ac.createMediaElementSource(el).connect(fg);fg.connect(mus);el.play().catch(()=>{});
+  const tick=()=>{const d=el.duration;if(d&&isFinite(d)){const t=el.currentTime;fg.gain.value=Math.max(0,Math.min(1,t/4,(d-t)/4))}requestAnimationFrame(tick)};tick()});
+ el.addEventListener("ended",()=>{el.currentTime=0;el.play().catch(()=>{})}); // repetição suave: fade-out no fim e fade-in no começo
+ next()}
+/* Trilha gerada (sem batidas nem vocais): acordes longos e suaves + notas espaçadas, com reverberação sintética. Não é a música do link de referência. */
+function genMusic(){if(musicMode=="gen"||musicMode=="file")return;musicMode="gen";setMstat("Música: trilha gerada (nenhum arquivo em audio/)");
+ const rev=ac.createConvolver(),rl=ac.sampleRate*3.5,ib=ac.createBuffer(2,rl,ac.sampleRate);for(let c=0;c<2;c++){const d=ib.getChannelData(c);for(let i=0;i<rl;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/rl,2.6)}rev.buffer=ib;
+ const wet=ac.createGain();wet.gain.value=.9;rev.connect(wet);wet.connect(mus);const dry=ac.createGain();dry.gain.value=.35;dry.connect(mus);
+ const lp=ac.createBiquadFilter();lp.type="lowpass";lp.frequency.value=1400;lp.connect(rev);lp.connect(dry);
+ const N=m=>440*Math.pow(2,(m-69)/12),prog=[[57,64,71,76],[53,60,67,72],[55,62,69,74],[52,59,66,71]];let ci=0;
+ const pad=ch=>{const t=ac.currentTime;ch.forEach((m,k)=>{const o=ac.createOscillator(),g=ac.createGain();o.type=k%2?"sine":"triangle";o.frequency.value=N(m-12);o.detune.value=(Math.random()-.5)*8;
+  g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.05,t+6);g.gain.linearRampToValueAtTime(0,t+16);o.connect(g);g.connect(lp);o.start(t);o.stop(t+16.5)})};
+ const bell=()=>{const t=ac.currentTime,ch=prog[ci],m=ch[Math.floor(Math.random()*ch.length)]+(Math.random()<.5?0:12),o=ac.createOscillator(),g=ac.createGain();o.type="sine";o.frequency.value=N(m);
+  g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.06,t+.6);g.gain.exponentialRampToValueAtTime(.0005,t+5);o.connect(g);g.connect(lp);o.start(t);o.stop(t+5.2)};
+ const step=()=>{pad(prog[ci]);ci=(ci+1)%prog.length};step();setInterval(step,12000);(function nb(){bell();setTimeout(nb,5000+Math.random()*6000)})()}
+[vol,mvol,gvol].forEach(s=>s.oninput=applyVol);
+document.getElementById("mute").onclick=e=>{muted=!muted;e.target.textContent=muted?"🔇":"🔊";applyVol()};
+function setMstat(t){const e=document.getElementById("mstat");if(e)e.textContent=t}
+document.getElementById("mbtn").onclick=e=>{musicOn=!musicOn;e.currentTarget.classList.toggle("off",!musicOn);if(!ac)return;smooth(mtog,musicOn?1:0,.5);if(musicEl){if(musicOn)musicEl.play().catch(()=>{});else setTimeout(()=>{if(!musicOn)musicEl.pause()},2500)}};
+document.getElementById("go").onclick=()=>{startAudio();const i=document.getElementById("intro");i.style.opacity=0;setTimeout(()=>i.remove(),1300)};
+
+/* ============ LOOP ============ */
+function resize(){R.setSize(innerWidth,innerHeight,false);cam.aspect=innerWidth/innerHeight;cam.updateProjectionMatrix()}addEventListener("resize",resize);resize();
+const clk=new THREE.Clock();let q=140/2048;PERF.setQ=v=>{q=v};
+(function loop(){requestAnimationFrame(loop);const dt=Math.min(clk.getDelta(),.05);T.value+=dt;
+ if(!fly)ty+=((keys.KeyE?1:0)-(keys.KeyQ?1:0))*1.2*dt;yaw+=(ty-yaw)*Math.min(1,dt*6);pitch+=(tp-pitch)*Math.min(1,dt*6);if(!fly){ty=ty}
+ move(dt);cam.rotation.set(pitch,-yaw-Math.PI/2+Math.sin(T.value*.4)*.004,0);PERF.update(dt);
+ const p=cam.position;if(regionIdx()!=cur)setRegion(regionIdx());env();
+ sun.position.set(Math.round((p.x+18)/q)*q,Math.round((p.y+70)/q)*q,Math.round((p.z+10)/q)*q);sun.target.position.set(Math.round(p.x/q)*q,Math.round(p.y/q)*q-0,Math.round(p.z/q)*q);
+ rays.position.set(p.x,0,p.z);rays.children.forEach(m=>{m.position.x=m.userData.ox+Math.sin(T.value*.15+m.userData.ph)*4});
+ surf.position.set(p.x,0,p.z);PU.uCam.value.copy(p);updFish(T.value);updSharks(dt);updFauna(dt);updFX(dt);if(!(PERF.n&1))updPOI();R.render(scene,cam);PERF.tick(dt)})();
+PERF.init();setRegion(0);loadAll();
+</script></body></html>

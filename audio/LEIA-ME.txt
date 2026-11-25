@@ -1,0 +1,13 @@
+MÚSICA DE FUNDO
+Coloque aqui UM arquivo de música instrumental, calma e com licença de uso adequada, com exatamente este nome:
+
+    audio/musica-ambiente.mp3        (ou, se preferir, audio/musica-ambiente.ogg)
+
+- O museu procura primeiro o .mp3 e depois o .ogg.
+- A música começa só depois do clique em "Mergulhar", em volume baixo, junto com o som do oceano,
+  repete com fade suave e não reinicia ao trocar de região.
+- O botão 🎵 liga/desliga a música; o botão 🔊 silencia tudo.
+- Se nenhum arquivo existir, o museu usa uma trilha ambiente gerada pelo navegador (a legenda no canto
+  da tela mostra "trilha gerada"). Não é a música do link de referência.
+
+Faixa atual: "Tranquil Depths" (artista nas etiquetas ID3: Stelaris), 4 min 18 s, MP3 192 kbps. Confirme e guarde a licença de uso e o crédito exigido pelo autor.

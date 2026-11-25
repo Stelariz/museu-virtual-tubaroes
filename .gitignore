@@ -1,0 +1,34 @@
+# ============================================================
+# .gitignore — Museu Virtual dos Tubarões
+# Lista o que o Git NÃO deve enviar para o GitHub.
+# ============================================================
+
+# --- Arquivos do sistema operacional ---
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# --- Editores e ferramentas ---
+.vscode/
+.idea/
+*.swp
+*~
+
+# --- Dependências e logs (este projeto não usa Node, mas evita acidentes) ---
+node_modules/
+npm-debug.log*
+*.log
+
+# --- Temporários, backups e pacotes compactados ---
+*.tmp
+*.bak
+*.zip
+*.rar
+*.7z
+
+# --- Arquivos de trabalho pesados (originais dos modelos 3D etc.) ---
+originais/
+brutos/
+*.blend
+*.blend1
+
