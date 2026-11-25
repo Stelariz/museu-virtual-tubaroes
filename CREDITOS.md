@@ -3,10 +3,6 @@
 Este documento reúne os créditos dos **modelos 3D**, da **trilha sonora**, das **bibliotecas** e das **ferramentas** usadas no
 *Museu Virtual dos Tubarões* (projeto acadêmico sem fins comerciais — FATEC São Carlos).
 
-> **Como estes dados foram obtidos:** título, autor, licença e link de origem de cada modelo foram **lidos dos metadados gravados dentro dos
-> próprios arquivos `.glb`** (campo `asset.extras`, preenchido pelo Sketchfab no momento do download) e conferidos com a lista de créditos dos autores do
-> projeto. Onde a lista preliminar divergia do arquivo, prevaleceu o metadado do arquivo (divergências em `docs/CHECKLIST_PUBLICACAO.md`).
-
 ## O que cada licença exige (resumo)
 
 | Licença | Pode usar? | Principais condições |
@@ -25,7 +21,7 @@ redução de resolução e conversão de texturas, junção de partes). No museu
 recoloridos** por código, e alguns recebem movimentos gerados em tempo real (por exemplo, ondulação suave de cauda). A modelagem e as texturas
 originais **não** foram redesenhadas manualmente. Por esse motivo, as proporções do museu **não** representam o tamanho real dos animais.
 
-## Modelos 3D publicados neste repositório (26 arquivos)
+## Modelos 3D publicados neste repositório (30 arquivos)
 
 ### Tubarões — `models/sharks/`
 | Arquivo | Título original | Autor | Licença | Fonte |
@@ -51,6 +47,7 @@ originais **não** foram redesenhadas manualmente. Por esse motivo, as proporç�
 | `models/fauna/seahorse.glb` | Seahorse | [Rigsters](https://sketchfab.com/rigsters) | [CC BY 4.0](http://creativecommons.org/licenses/by/4.0/) | [Sketchfab](https://sketchfab.com/3d-models/seahorse-2651aa6a55944f34abdd12f29dcf99a2) |
 | `models/fauna/turtle_hawksbill.glb` | Model 50A - Hawksbill Sea Turtle | [DigitalLife3D](https://sketchfab.com/DigitalLife3D) | [CC BY-NC 4.0](http://creativecommons.org/licenses/by-nc/4.0/) | [Sketchfab](https://sketchfab.com/3d-models/model-50a-hawksbill-sea-turtle-e69458ef8176402d919df421e444da86) |
 | `models/fauna/turtle_loggerhead.glb` | Model 47A - Loggerhead Sea Turtle | [DigitalLife3D](https://sketchfab.com/DigitalLife3D) | [CC BY-NC 4.0](http://creativecommons.org/licenses/by-nc/4.0/) | [Sketchfab](https://sketchfab.com/3d-models/model-47a-loggerhead-sea-turtle-c438e81e796d41d9a6ae4cc147ef8d4f) |
+| `models/fauna/conch.glb` | [Horse Conch](https://sketchfab.com/3d-models/horse-conch-9f039d6961604e5d97fcc6dee928a188) | [University of South Florida Libraries](https://sketchfab.com/USF_digital) | [CC BY-NC-ND 4.0](http://creativecommons.org/licenses/by-nc-nd/4.0/) | **ND (NoDerivatives)** proíbe distribuir versões modificadas; o arquivo foi otimizado (malha/texturas reduzidas). |
 
 ### Corais e recifes — `models/corals/`
 | Arquivo | Título original | Autor | Licença | Fonte |
@@ -61,6 +58,7 @@ originais **não** foram redesenhadas manualmente. Por esse motivo, as proporç�
 | `models/corals/coral_lazulight.glb` | Lazulight - coral | [Brian Trepanier](https://sketchfab.com/CMBC) | [CC BY 4.0](http://creativecommons.org/licenses/by/4.0/) | [Sketchfab](https://sketchfab.com/3d-models/lazulight-coral-109f3290b9304b8fa9802ccd73656b34) |
 | `models/corals/coral_rainbow.glb` | Rainbow Haven Reef - coral | [Brian Trepanier](https://sketchfab.com/CMBC) | [CC BY 4.0](http://creativecommons.org/licenses/by/4.0/) | [Sketchfab](https://sketchfab.com/3d-models/rainbow-haven-reef-coral-5b55156920cf4a5dbb8af86a18279d22) |
 | `models/corals/reef_longledges.glb` | Long Ledges reef community | [Matt Doggett](https://sketchfab.com/mattdoggett) | [CC BY 4.0](http://creativecommons.org/licenses/by/4.0/) | [Sketchfab](https://sketchfab.com/3d-models/long-ledges-reef-community-8c4b2599d2e0468298f755972e083114) |
+| `models/corals/coral_pillar.glb` | [Curacao Pillar coral 01](https://sketchfab.com/3d-models/curacao-pillar-coral-01-8a9d6acadca64485bfa8e16587a8d08f) | [California Academy of Sciences Viz Studio](https://sketchfab.com/vizstudio) | [CC BY-NC-ND 4.0](http://creativecommons.org/licenses/by-nc-nd/4.0/) | **ND (NoDerivatives)** proíbe distribuir versões modificadas; o arquivo foi otimizado (malha/texturas reduzidas). |
 
 ### Redes de pesca — `models/nets/`
 | Arquivo | Título original | Autor | Licença | Fonte |
@@ -72,32 +70,20 @@ originais **não** foram redesenhadas manualmente. Por esse motivo, as proporç�
 | Arquivo | Título original | Autor | Licença | Fonte |
 | :-- | :-- | :-- | :-- | :-- |
 | `models/trash/barrel.glb` | Radioactive barrel | [Merle Palk](https://sketchfab.com/mpalk) | [CC BY 4.0](http://creativecommons.org/licenses/by/4.0/) | [Sketchfab](https://sketchfab.com/3d-models/radioactive-barrel-d9f1a06e6102478cb57acf31da799c68) |
-
-## Modelos que NÃO estão neste repositório público (4 arquivos)
-
-Estes arquivos fazem parte da versão local completa do museu, mas **não devem ser publicados** sem autorização, porque a licença não permite a
-redistribuição (ou não permite a distribuição de versões modificadas). Eles estão listados no `.gitignore`.
-
-| Arquivo (NÃO publicado) | Título original | Autor | Licença | Por que não pode ir ao repositório público |
-| :-- | :-- | :-- | :-- | :-- |
-| `models/boat/fishing_boat.glb` | [Fishing Boat](https://sketchfab.com/3d-models/fishing-boat-a3f138089e164200b34bfb1bebb978c2) | [CharlieCatling](https://sketchfab.com/charliecatling) | [SKETCHFAB Standard](https://sketchfab.com/licenses) | Licença **Sketchfab Standard** (não é Creative Commons): em geral não autoriza redistribuir os arquivos do modelo; confirme os termos atuais ou peça autorização. |
-| `models/corals/coral_pillar.glb` | [Curacao Pillar coral 01](https://sketchfab.com/3d-models/curacao-pillar-coral-01-8a9d6acadca64485bfa8e16587a8d08f) | [California Academy of Sciences Viz Studio](https://sketchfab.com/vizstudio) | [CC BY-NC-ND 4.0](http://creativecommons.org/licenses/by-nc-nd/4.0/) | **ND (NoDerivatives)** proíbe distribuir versões modificadas; o arquivo foi otimizado (malha/texturas reduzidas). |
-| `models/fauna/conch.glb` | [Horse Conch](https://sketchfab.com/3d-models/horse-conch-9f039d6961604e5d97fcc6dee928a188) | [University of South Florida Libraries](https://sketchfab.com/USF_digital) | [CC BY-NC-ND 4.0](http://creativecommons.org/licenses/by-nc-nd/4.0/) | **ND (NoDerivatives)** proíbe distribuir versões modificadas; o arquivo foi otimizado (malha/texturas reduzidas). |
 | `models/trash/trash.glb` | [Trash and Debris](https://sketchfab.com/3d-models/trash-and-debris-831a2b9fb9cd413abb5f178e8d3eb3f6) | [mcsteegs](https://sketchfab.com/mcsteegs) | [SKETCHFAB Standard](https://sketchfab.com/licenses) | Licença **Sketchfab Standard** (não é Creative Commons): em geral não autoriza redistribuir os arquivos do modelo; confirme os termos atuais ou peça autorização. |
 
-**O que fazer:** (a) manter apenas na sua máquina, para a apresentação local; (b) pedir permissão por escrito ao autor (o modelo do
-Sketchfab tem botão de contato/mensagem); ou (c) substituir por modelos com licença CC BY. Sem esses arquivos, o museu continua funcionando, mas sem o
-coral-pilar, a concha, o barco de pesca e o pacote de resíduos (o botão de status do museu mostra “falhou: …” para eles).
+### Barco de Pesca — `models/boat/`
+| Arquivo | Título original | Autor | Licença | Fonte |
+| :-- | :-- | :-- | :-- | :-- |
+| `models/boat/fishing_boat.glb` | [Fishing Boat](https://sketchfab.com/3d-models/fishing-boat-a3f138089e164200b34bfb1bebb978c2) | [CharlieCatling](https://sketchfab.com/charliecatling) | [SKETCHFAB Standard](https://sketchfab.com/licenses) | Licença **Sketchfab Standard** (não é Creative Commons): em geral não autoriza redistribuir os arquivos do modelo; confirme os termos atuais ou peça autorização. |
+
 
 ## Trilha sonora
 
-| Arquivo | Título (etiqueta ID3 do MP3) | Como foi criada | Licença / termos |
-| :-- | :-- | :-- | :-- |
-| `audio/musica-ambiente.mp3` | “Tranquil Depths” (artista na etiqueta ID3: “Stelaris”) | Gerada com o auxílio do **Suno AI** | **[PREENCHER]** plano do Suno usado: ______ · data de geração: ______ · link/ID da faixa: ______ · termos verificados em: ______ |
+| Arquivo | Título (etiqueta ID3 do MP3) | Como foi criada |
+| :-- | :-- | :-- |
+| `audio/musica-ambiente.mp3` | “Tranquil Depths” (artista na etiqueta ID3: “Stelaris”) | Gerada com o auxílio do **Suno AI** |
 
-> A licença da música **ainda precisa ser confirmada** antes da publicação (veja `docs/CHECKLIST_PUBLICACAO.md`). Não use rótulos como “royalty-free” sem
-> confirmar nos termos do Suno válidos para o seu plano. Se não puder redistribuir a faixa, remova o arquivo (ou descomente a linha no `.gitignore`): o museu usa,
-> então, uma trilha ambiente gerada pelo próprio navegador.
 
 ## Bibliotecas incluídas
 
