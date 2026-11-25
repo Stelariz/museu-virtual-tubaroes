@@ -1,4 +1,4 @@
-# Museu Virtual dos Tubarões
+# :coral: Museu Virtual dos Tubarões
 
 *Uma experiência interativa de exploração, conhecimento e conservação dos oceanos.*
 
@@ -9,7 +9,7 @@ ecossistemas marinhos, as ameaças causadas pelas atividades humanas e as formas
 
 ---
 
-## Sumário
+## :compass: Sumário
 
 - [Sobre o projeto](#sobre-o-projeto)
 - [Contexto acadêmico](#contexto-acadêmico)
@@ -26,17 +26,26 @@ ecossistemas marinhos, as ameaças causadas pelas atividades humanas e as formas
 - [Licenças e direitos autorais](#licenças-e-direitos-autorais)
 - [Considerações finais](#considerações-finais)
 
-<!--
-CAPTURAS DE TELA (opcional): depois de salvar suas imagens em docs/imagens/, remova as marcas de comentário e ajuste os nomes.
-Veja docs/imagens/LEIA-ME.md.
+![Entrada do museu](docs/imagens/00-entrada.png)
 
-![Entrada do museu — região Descoberta](docs/imagens/01-descoberta.png)
-![Tubarão-baleia e painel com a ficha da espécie](docs/imagens/02-ficha-tubarao.png)
--->
+![Região Descoberta](docs/imagens/01-descoberta.png)
+
+![Tubarão-branco e painel com a ficha da espécie](docs/imagens/02-ficha-tubarao.png)
+
+![Região Diversidade](docs/imagens/03-diversidade.png)
+
+![Região Ecossistema](docs/imagens/04-ecossistema.png)
+
+![Região Ameaças](docs/imagens/05-ameacas.png)
+
+![Região Conservação](docs/imagens/06-conservacao.png)
+
+![Contador de Tubarões](docs/imagens/07-contador.png)
+
 
 ---
 
-## Sobre o projeto
+## :ocean: Sobre o projeto
 
 O museu foi concebido como um **documentário submarino interativo**. O visitante nada livremente por cinco regiões oceânicas contínuas, observa tubarões e outros animais
 em seus habitats e descobre informações educativas distribuídas pelo próprio cenário, em pontos numerados.
@@ -46,7 +55,7 @@ em seus habitats e descobre informações educativas distribuídas pelo próprio
 - **Importância dos tubarões:** o museu mostra que muitas espécies são predadores de topo ou filtradores e que ajudam a manter equilibrados os ecossistemas marinhos.
 - **Conscientização:** a região *Ameaças* mostra impactos da pesca excessiva e da poluição, e a região *Conservação* apresenta soluções e ações do dia a dia, ligadas à ODS 14.
 
-## Contexto acadêmico
+## :mortar_board: Contexto acadêmico
 
 | | |
 | :-- | :-- |
@@ -54,17 +63,17 @@ em seus habitats e descobre informações educativas distribuídas pelo próprio
 | **Curso** | Big Data para a Indústria |
 | **Disciplina** | Gestão de Projetos |
 | **Tipo** | Projeto acadêmico (sem fins comerciais) |
-| **Autoria** | **[PREENCHER: nome(s) do(s) autor(es)]** |
-| **Professor(a) responsável** | **[PREENCHER, se desejado]** |
-| **Ano/semestre** | **[PREENCHER]** |
+| **Autoria** | Stela Maris Rizzi, Kevyn Aparecido de Oliveira Bispo |
+| **Professor(a) responsável** | Gilvane Aparecida de Carvalho |
+| **Ano/semestre** | Nov/2026 |
 
-## Objetivo de Desenvolvimento Sustentável
+## :earth_americas: Objetivo de Desenvolvimento Sustentável
 
 O projeto se relaciona com a **ODS 14 — Vida na Água**, um dos 17 Objetivos de Desenvolvimento Sustentável da Organização das Nações Unidas (Agenda 2030), que busca
 **conservar e usar de forma sustentável os oceanos, os mares e os recursos marinhos**. O museu aborda esse objetivo ao tratar de redução da poluição marinha, proteção de
 ecossistemas e espécies, pesca sustentável, áreas marinhas protegidas e ações individuais de conservação. Mais informações: [ONU — ODS 14](https://sdgs.un.org/goals/goal14).
 
-## Funcionalidades
+## :sparkles: Funcionalidades
 
 Todas as funcionalidades abaixo foram confirmadas no código da versão final.
 
@@ -79,12 +88,10 @@ Todas as funcionalidades abaixo foram confirmadas no código da versão final.
 - **Configurações gráficas** *Alta / Média / Baixa* (com detecção automática conservadora da placa de vídeo), contador opcional de FPS e otimizações para computadores com GPU integrada.
 - **Controles de navegação:** arrastar o mouse para olhar; `W A S D` ou setas para nadar; `Espaço` / `C` para subir e descer; `Q` / `E` para girar a câmera; `Shift` para nadar mais rápido; `F` para abrir o ponto próximo; `Esc` para fechar painéis.
 
-> **Observação sobre dispositivos móveis:** o museu não foi otimizado nem testado em celulares. Existe apenas um botão “avançar” para telas de toque. Veja [`docs/ANALISE_MOBILE_E_PUBLICACAO.md`](docs/ANALISE_MOBILE_E_PUBLICACAO.md).
+> **Observação sobre dispositivos móveis:** o museu não foi otimizado nem testado em celulares. Existe apenas um botão “avançar” para telas de toque.
 
-> **Observação sobre a versão pública:** quatro modelos 3D (coral-pilar, concha, barco de pesca e pacote de resíduos) **não são distribuídos neste repositório** porque suas licenças não permitem a redistribuição.
-> O museu funciona sem eles, mas essas peças não aparecem na versão pública. Detalhes em [`CREDITOS.md`](CREDITOS.md).
 
-## Espécies disponíveis
+## :shark: Espécies disponíveis
 
 | # | Grupo | Espécie | Nome científico |
 | :-: | :-- | :-- | :-- |
@@ -100,7 +107,7 @@ Todas as funcionalidades abaixo foram confirmadas no código da versão final.
 Os nomes científicos seguem as fichas do próprio museu; confira-os em fontes como a [IUCN Red List](https://www.iucnredlist.org/) antes de usar em trabalhos formais.
 **Sobre a escala:** por limitações de capacidade computacional, os modelos não estão em escala real entre si nem em relação ao visitante; têm finalidade ilustrativa e educativa.
 
-## Regiões do museu
+## :world_map: Regiões do museu
 
 | # | Região | Objetivo educativo | Pontos de interesse |
 | :-: | :-- | :-- | :-: |
@@ -110,7 +117,7 @@ Os nomes científicos seguem as fichas do próprio museu; confira-os em fontes c
 | 4 | **Ameaças** | Pesca excessiva, captura acidental, comércio de barbatanas, poluição, mudanças climáticas e destruição de habitats | 6 |
 | 5 | **Conservação** | Proteção dos tubarões, áreas marinhas protegidas, pesca sustentável, recifes, ODS 14, ações individuais e quiz | 7 |
 
-## Tecnologias utilizadas
+## :hammer_and_wrench: Tecnologias utilizadas
 
 Somente tecnologias confirmadas no código do projeto:
 
@@ -127,7 +134,7 @@ Somente tecnologias confirmadas no código do projeto:
 
 Não há servidor, banco de dados, cadastro ou bibliotecas externas carregadas pela internet: tudo é servido a partir dos arquivos do repositório.
 
-## Processo de desenvolvimento com inteligência artificial
+## :robot: Processo de desenvolvimento com inteligência artificial
 
 O museu é resultado da **combinação de diferentes ferramentas de inteligência artificial e de recursos de terceiros**, orquestrados pelos autores ao longo de várias etapas. Nenhuma ferramenta criou o projeto sozinha.
 
@@ -144,7 +151,7 @@ desempenho em notebook) e refinavam os prompts para a etapa seguinte. Além dos 
 
 **Sobre o conteúdo educativo:** os textos foram elaborados com apoio de IA e **devem ser revisados** pelos autores/professor; as referências do museu indicam instituições reconhecidas (NOAA, Smithsonian, IUCN, ONU).
 
-## Como executar o projeto localmente
+## :computer: Como executar o projeto localmente
 
 > **Por que não basta clicar duas vezes em `index.html`?** Os navegadores bloqueiam, por segurança, que uma página aberta direto do disco (endereço que começa com `file:///`) leia outros arquivos,
 > como os modelos 3D e a música. O resultado é um museu **sem os modelos**. É preciso abri-lo por um **servidor local** (endereço `http://…`).
@@ -173,13 +180,13 @@ desempenho em notebook) e refinavam os prompts para a etapa seguinte. Além dos 
 
 Use de preferência **Chrome ou Edge**. Para ajustar o desempenho, use o botão **⚙ Gráficos** (canto inferior esquerdo) ou parâmetros na URL, como `?quality=baixa` e `&fps=1` (mais detalhes em [`docs/DESEMPENHO.md`](docs/DESEMPENHO.md)).
 
-## Como acessar o museu online
+## :globe_with_meridians: Como acessar o museu online
 
-**Endereço do GitHub Pages:** **`https://SEU-USUARIO.github.io/museu-virtual-tubaroes/`** ← *substitua `SEU-USUARIO` pelo seu usuário do GitHub depois de publicar (passo a passo em [`docs/TUTORIAL_GITHUB.md`](docs/TUTORIAL_GITHUB.md)).*
+**Endereço do GitHub Pages:** **`https://Stelariz.github.io/museu-virtual-tubaroes/`** 
 
 A primeira visita baixa muitos arquivos 3D (cerca de 150 MB); use de preferência uma conexão Wi-Fi e aguarde o carregamento.
 
-## Estrutura de pastas
+## :open_file_folder: Estrutura de pastas
 
 ```text
 museu-virtual-tubaroes/
@@ -187,7 +194,7 @@ museu-virtual-tubaroes/
 ├── edu.js                # conteúdo educativo e posição dos pontos de interesse
 ├── perf.js               # qualidade gráfica, recorte por distância e contador de FPS
 ├── fauna.js              # animais marinhos (tartarugas, peixes, polvos etc.)
-├── pollution.js          # região Ameaças: redes, barril e (na versão local) barco e resíduos
+├── pollution.js          # região Ameaças: redes, barril, barco e resíduos
 ├── README.md             # este arquivo
 ├── CREDITOS.md           # créditos e licenças dos modelos 3D, música e bibliotecas
 ├── .gitignore  .gitattributes  .nojekyll
@@ -197,19 +204,15 @@ museu-virtual-tubaroes/
 │   ├── sharks/           # 8 tubarões
 │   ├── fauna/            # tartarugas, peixes, polvo, choco, caranguejo, nudibrânquio, cavalo-marinho
 │   ├── corals/           # corais e recifes
+│   ├── boats/            # barco de pesca
 │   ├── nets/             # redes de pesca
-│   └── trash/            # barril (os demais resíduos e o barco não são distribuídos)
+│   └── trash/            # barril tóxico e lixo
 └── docs/
-    ├── TUTORIAL_GITHUB.md            # passo a passo para publicar no GitHub e no GitHub Pages
-    ├── CHECKLIST_PUBLICACAO.md       # verificações antes de tornar o repositório público
-    ├── LICENCAS.md                   # orientações sobre licenciamento
-    ├── DESEMPENHO.md                 # qualidade gráfica e como testar o desempenho
-    ├── ANALISE_MOBILE_E_PUBLICACAO.md
     ├── NOTAS_TECNICAS_LEIAME.md      # notas técnicas de desenvolvimento
-    └── imagens/                      # capturas de tela (a adicionar)
+    └── imagens/                      # capturas de tela
 ```
 
-## Créditos e atribuições
+## :handshake: Créditos e atribuições
 
 ### Ferramentas de inteligência artificial
 
@@ -239,7 +242,7 @@ Quatro modelos de outros autores fazem parte da versão local do museu, mas **n�
 [IUCN Red List](https://www.iucnredlist.org/) · [IUCN Shark Specialist Group](https://www.iucnssg.org/) · [ONU — ODS 14](https://sdgs.un.org/goals/goal14) ·
 Pacoureau et al. (2021), *Nature* ([nature.com](https://www.nature.com/)).
 
-## Licenças e direitos autorais
+## :scroll: Licenças e direitos autorais
 
 Este repositório reúne **materiais com licenças diferentes**:
 
@@ -251,7 +254,7 @@ Este repositório reúne **materiais com licenças diferentes**:
 
 Por isso, **não se aplica uma única licença a todo o conteúdo**. Reutilizar o projeto exige respeitar a licença de cada parte.
 
-## Considerações finais
+## :shell: Considerações finais
 
 O Museu Virtual dos Tubarões mostra como **tecnologia, educação ambiental, inteligência artificial e gestão de projetos** podem se encontrar em um mesmo trabalho: uma ideia acadêmica foi
 planejada, dividida em etapas, testada e refinada até virar uma experiência interativa, aberta a quem quiser explorar o oceano pelo navegador. Mais do que mostrar tubarões, o museu convida o visitante
