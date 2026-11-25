@@ -11,37 +11,58 @@ ecossistemas marinhos, as ameaças causadas pelas atividades humanas e as formas
 
 ## 🧭 Sumário
 
-- [Sobre o projeto](#sobre-o-projeto)
-- [Contexto acadêmico](#contexto-acadêmico)
-- [Objetivo de Desenvolvimento Sustentável](#objetivo-de-desenvolvimento-sustentável)
-- [Funcionalidades](#funcionalidades)
-- [Espécies disponíveis](#espécies-disponíveis)
-- [Regiões do museu](#regiões-do-museu)
-- [Tecnologias utilizadas](#tecnologias-utilizadas)
-- [Processo de desenvolvimento com inteligência artificial](#processo-de-desenvolvimento-com-inteligência-artificial)
-- [Como executar o projeto localmente](#como-executar-o-projeto-localmente)
-- [Como acessar o museu online](#como-acessar-o-museu-online)
-- [Estrutura de pastas](#estrutura-de-pastas)
-- [Créditos e atribuições](#créditos-e-atribuições)
-- [Licenças e direitos autorais](#licenças-e-direitos-autorais)
-- [Considerações finais](#considerações-finais)
+- [Sobre o projeto](#-sobre-o-projeto)
+- [Contexto acadêmico](#-contexto-acadêmico)
+- [Objetivo de Desenvolvimento Sustentável](#-objetivo-de-desenvolvimento-sustentável)
+- [Funcionalidades](#-funcionalidades)
+- [Espécies disponíveis](#-espécies-disponíveis)
+- [Regiões do museu](#-regiões-do-museu)
+- [Tecnologias utilizadas](#-tecnologias-utilizadas)
+- [Processo de desenvolvimento com inteligência artificial](#-processo-de-desenvolvimento-com-inteligência-artificial)
+- [Como executar o projeto localmente](#-como-executar-o-projeto-localmente)
+- [Como acessar o museu online](#-como-acessar-o-museu-online)
+- [Estrutura de pastas](#-estrutura-de-pastas)
+- [Créditos e atribuições](#-créditos-e-atribuições)
+- [Licenças e direitos autorais](#-licenças-e-direitos-autorais)
+- [Considerações finais](#-considerações-finais)
 
+---
+
+## 📸 Galeria do Museu
+
+Abaixo estão algumas capturas de tela que mostram a navegação, as regiões temáticas e os recursos interativos da experiência em 3D:
+
+### Tela inicial e entrada no oceano
+Ponto de partida da experiência, onde o visitante inicia o mergulho e acessa os controles de navegação.
 ![Entrada do museu](docs/imagens/00-entrada.png)
 
+### Região 1 — Descoberta
+Ambiente de águas rasas e iluminadas que apresenta a evolução, a anatomia e os sentidos dos tubarões.
 ![Região Descoberta](docs/imagens/01-descoberta.png)
 
+### Ficha educativa das espécies
+Ao clicar em um tubarão (ou no botão **ⓘ**), o visitante abre um painel com dados científicos, habitat e estado de conservação.
 ![Tubarão-branco e painel com a ficha da espécie](docs/imagens/02-ficha-tubarao.png)
 
+### Região 2 — Diversidade
+Espaço dedicado às oito espécies modeladas em 3D, reunindo tanto tubarões conhecidos quanto espécies de águas profundas.
 ![Região Diversidade](docs/imagens/03-diversidade.png)
 
+### Região 3 — Ecossistema
+Cenário que ilustra o equilíbrio das teias alimentares e a convivência entre tubarões, tartarugas, corais e cardumes.
 ![Região Ecossistema](docs/imagens/04-ecossistema.png)
 
+### Região 4 — Ameaças
+Representação visual dos impactos humanos nos oceanos, como pesca predatória, redes abandonadas e poluição plástica.
 ![Região Ameaças](docs/imagens/05-ameacas.png)
 
+### Região 5 — Conservação
+Área voltada às soluções ambientais, à **ODS 14** e a um quiz interativo para testar os conhecimentos adquiridos.
 ![Região Conservação](docs/imagens/06-conservacao.png)
 
+### Contador de tubarões descobertos
+Barra de progresso salva no navegador que acompanha quantas das oito espécies o visitante já encontrou pelo oceano.
 ![Contador de Tubarões](docs/imagens/07-contador.png)
-
 
 ---
 
@@ -107,7 +128,7 @@ Todas as funcionalidades abaixo foram confirmadas no código da versão final.
 Os nomes científicos seguem as fichas do próprio museu; confira-os em fontes como a [IUCN Red List](https://www.iucnredlist.org/) antes de usar em trabalhos formais.
 **Sobre a escala:** por limitações de capacidade computacional, os modelos não estão em escala real entre si nem em relação ao visitante; têm finalidade ilustrativa e educativa.
 
-## 🗺️ Regiões do museu
+## 📍 Regiões do museu
 
 | # | Região | Objetivo educativo | Pontos de interesse |
 | :-: | :-- | :-- | :-: |
@@ -117,7 +138,7 @@ Os nomes científicos seguem as fichas do próprio museu; confira-os em fontes c
 | 4 | **Ameaças** | Pesca excessiva, captura acidental, comércio de barbatanas, poluição, mudanças climáticas e destruição de habitats | 6 |
 | 5 | **Conservação** | Proteção dos tubarões, áreas marinhas protegidas, pesca sustentável, recifes, ODS 14, ações individuais e quiz | 7 |
 
-## 🛠️ Tecnologias utilizadas
+## 🧰 Tecnologias utilizadas
 
 Somente tecnologias confirmadas no código do projeto:
 
