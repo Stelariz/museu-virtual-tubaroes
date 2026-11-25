@@ -5,26 +5,26 @@
 O **Museu Virtual dos Tubarões** é uma experiência web em 3D em que o visitante **mergulha no oceano** para conhecer a diversidade dos tubarões, o equilíbrio dos
 ecossistemas marinhos, as ameaças causadas pelas atividades humanas e as formas de proteger a vida na água. Não há salas nem vitrines: **o próprio oceano é o museu**.
 
-> **Acesse online:** [**ENDEREÇO DO GITHUB PAGES — preencher após a publicação**](#como-acessar-o-museu-online)
+> **Acesse online:** **https://stelariz.github.io/museu-virtual-tubaroes/**
 
 ---
 
 ## :compass: Sumário
 
-- [Sobre o projeto](#sobre-o-projeto)
-- [Contexto acadêmico](#contexto-acadêmico)
-- [Objetivo de Desenvolvimento Sustentável](#objetivo-de-desenvolvimento-sustentável)
-- [Funcionalidades](#funcionalidades)
-- [Espécies disponíveis](#espécies-disponíveis)
-- [Regiões do museu](#regiões-do-museu)
-- [Tecnologias utilizadas](#tecnologias-utilizadas)
-- [Processo de desenvolvimento com inteligência artificial](#processo-de-desenvolvimento-com-inteligência-artificial)
-- [Como executar o projeto localmente](#como-executar-o-projeto-localmente)
-- [Como acessar o museu online](#como-acessar-o-museu-online)
-- [Estrutura de pastas](#estrutura-de-pastas)
-- [Créditos e atribuições](#créditos-e-atribuições)
-- [Licenças e direitos autorais](#licenças-e-direitos-autorais)
-- [Considerações finais](#considerações-finais)
+- [Sobre o projeto](#-sobre-o-projeto)
+- [Contexto acadêmico](#-contexto-acadêmico)
+- [Objetivo de Desenvolvimento Sustentável](#-objetivo-de-desenvolvimento-sustentável)
+- [Funcionalidades](#-funcionalidades)
+- [Espécies disponíveis](#-espécies-disponíveis)
+- [Regiões do museu](#-regiões-do-museu)
+- [Tecnologias utilizadas](#-tecnologias-utilizadas)
+- [Processo de desenvolvimento com inteligência artificial](#-processo-de-desenvolvimento-com-inteligência-artificial)
+- [Como executar o projeto localmente](#-como-executar-o-projeto-localmente)
+- [Como acessar o museu online](#-como-acessar-o-museu-online)
+- [Estrutura de pastas](#-estrutura-de-pastas)
+- [Créditos e atribuições](#-créditos-e-atribuições)
+- [Licenças e direitos autorais](#-licenças-e-direitos-autorais)
+- [Considerações finais](#-considerações-finais)
 
 ![Entrada do museu](docs/imagens/00-entrada.png)
 
@@ -230,7 +230,7 @@ Quatro modelos de outros autores fazem parte da versão local do museu, mas **n�
 
 ### Trilha sonora
 
-`audio/musica-ambiente.mp3` — “Tranquil Depths”, gerada com o auxílio do **Suno AI**. Informações de licença/plano: **[PREENCHER — veja `CREDITOS.md` e `docs/CHECKLIST_PUBLICACAO.md`]**.
+`audio/musica-ambiente.mp3` — “Tranquil Depths”, gerada com o auxílio do **Suno AI**.
 
 ### Bibliotecas e dependências
 
