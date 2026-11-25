@@ -205,7 +205,7 @@ Use de preferência **Chrome ou Edge**. Para ajustar o desempenho, use o botão 
 
 ## 🌐 Como acessar o museu online
 
-**Endereço do GitHub Pages:** **`https://Stelariz.github.io/museu-virtual-tubaroes/`** 
+**Endereço do GitHub Pages:** **https://stelariz.github.io/museu-virtual-tubaroes/**
 
 A primeira visita baixa muitos arquivos 3D (cerca de 150 MB); use de preferência uma conexão Wi-Fi e aguarde o carregamento.
 
