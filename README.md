@@ -12,6 +12,7 @@ ecossistemas marinhos, as ameaças causadas pelas atividades humanas e as formas
 ## 🧭 Sumário
 
 - [Sobre o projeto](#-sobre-o-projeto)
+- [Galeria do Museu](#-galeria-do-museu)
 - [Contexto acadêmico](#-contexto-acadêmico)
 - [Objetivo de Desenvolvimento Sustentável](#-objetivo-de-desenvolvimento-sustentável)
 - [Funcionalidades](#-funcionalidades)
@@ -27,6 +28,17 @@ ecossistemas marinhos, as ameaças causadas pelas atividades humanas e as formas
 - [Considerações finais](#-considerações-finais)
 
 ---
+
+## 🌊 Sobre o projeto
+
+O museu foi concebido como um **documentário submarino interativo**. O visitante nada livremente por cinco regiões oceânicas contínuas, observa tubarões e outros animais
+em seus habitats e descobre informações educativas distribuídas pelo próprio cenário, em pontos numerados.
+
+- **Caráter educativo:** cada região tem pontos de interesse com explicações organizadas por tópico, fichas das espécies e, ao final, uma atividade opcional de perguntas e respostas.
+- **Exploração tridimensional:** navegação em primeira pessoa, com luz, névoa e profundidade que mudam conforme a região.
+- **Importância dos tubarões:** o museu mostra que muitas espécies são predadores de topo ou filtradores e que ajudam a manter equilibrados os ecossistemas marinhos.
+- **Conscientização:** a região *Ameaças* mostra impactos da pesca excessiva e da poluição, e a região *Conservação* apresenta soluções e ações do dia a dia, ligadas à ODS 14.
+
 
 ## 📸 Galeria do Museu
 
@@ -65,16 +77,6 @@ Barra de progresso salva no navegador que acompanha quantas das oito espécies o
 ![Contador de Tubarões](docs/imagens/07-contador.png)
 
 ---
-
-## 🌊 Sobre o projeto
-
-O museu foi concebido como um **documentário submarino interativo**. O visitante nada livremente por cinco regiões oceânicas contínuas, observa tubarões e outros animais
-em seus habitats e descobre informações educativas distribuídas pelo próprio cenário, em pontos numerados.
-
-- **Caráter educativo:** cada região tem pontos de interesse com explicações organizadas por tópico, fichas das espécies e, ao final, uma atividade opcional de perguntas e respostas.
-- **Exploração tridimensional:** navegação em primeira pessoa, com luz, névoa e profundidade que mudam conforme a região.
-- **Importância dos tubarões:** o museu mostra que muitas espécies são predadores de topo ou filtradores e que ajudam a manter equilibrados os ecossistemas marinhos.
-- **Conscientização:** a região *Ameaças* mostra impactos da pesca excessiva e da poluição, e a região *Conservação* apresenta soluções e ações do dia a dia, ligadas à ODS 14.
 
 ## 🎓 Contexto acadêmico
 
